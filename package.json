@@ -1,0 +1,25 @@
+{
+  "name": "du-an-2b",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+ 
+    "test": "echo \"Error: no test specified\" && exit 1"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phung12017/du-an-2b.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phung12017/du-an-2b/issues"
+  },
+  "homepage": "https://github.com/phung12017/du-an-2b#readme"
+}
