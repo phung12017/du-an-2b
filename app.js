@@ -1,14 +1,23 @@
+//import modules
 const express = require('express');
 const app = express();
+const routes  = require('./routes/routes')
+const api  = require('./routes/api')
 
+//app use
+app.use(routes)
+app.use(api)
 
-app.get('/',(req,res)=>{
-    res.json({msg:'xxxx'})
-})
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
-app.get('/login',(req,res)=>{
-    res.json({msg:'login'})
-})
+app.use('/uploads', express.static(__dirname + '/Images'));
+// public static folder
+app.use(express.static('public'));
+
+//connectDB
+const connectDB = require("./config/mongoose");
+connectDB();
 
 //open server at port 3000:
 app.listen(process.env.PORT || 3000, () => {
