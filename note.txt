@@ -1,0 +1,2 @@
+controllers/API : viet api danh` rieng cho app
+routes/routes.js : danh` cho web admin

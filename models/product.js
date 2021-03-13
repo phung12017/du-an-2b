@@ -9,6 +9,8 @@ const productSchema = new Schema({
     imageUrl:{type:String,trim:true},
     createAt:{type:Date,},
     isActive:{type:Boolean},
+    size:{type:Object},
+    topping:{type:Array}
 });
 
 module.exports = mongoose.model('products',productSchema);

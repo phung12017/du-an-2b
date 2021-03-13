@@ -22,7 +22,16 @@ exports.getAllProd = async (request, response) => {
  
 	}
 };
+
+exports.createProd = async (request, response) => {
+	try {
+		let products = await product.find({isActive:true});
+		response.send({products});
+	} catch (error) {
  
+	}
+};
+
 exports.getAllProdByCate = async (request, response) => {
 	const _idCategory = request.params._idCategory
 	try {

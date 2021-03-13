@@ -9,7 +9,6 @@ router.use(bodyParser.json());
 
 //import controllers
 const API = require('../controllers/API');
-
 router.get('/api/categories', API.getAllCate);
 router.get('/api/products', API.getAllProd);
 router.get('/api/product/cate/:_idCategory', API.getAllProdByCate);
