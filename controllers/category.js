@@ -15,6 +15,17 @@ exports.createProduct = async (req, res) => {
 };
 
 
+exports.createProducts = async (req, res) => {
+
+	const _id= req.params._id
+	//console.log(_id);
+	const cate = await category.findOne({_id:_id})
+	const prods = await product.find({_idCategory:_id})
+	//console.log(result);
+	console.log(prods);
+	res.render('./admin/menu-product',{cate,prods})
+};
+
  
  
  

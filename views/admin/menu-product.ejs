@@ -42,24 +42,27 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item  ">
                 <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item active ">
                 <a class="nav-link" href="/admin/menu">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Menu</span></a>
             </li>
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item ">
-        <a class="nav-link" href="/admin/api">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Api</span></a>
-    </li>
+
+              <!-- Nav Item - Dashboard -->
+              <li class="nav-item ">
+                <a class="nav-link" href="/admin/api">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Api</span></a>
+            </li>
+
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -352,127 +355,23 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Menu</h1>
+                        <h1 class="h3 mb-0 text-gray-800"><%-cate.title-%></h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    </div>
+                    <div class="row">
+                        <p>Tu xu di t met r, lam` sao cho dep do thi` lam ko dc thi de t lam`</p>
+                        <%-prods-%>
+                        
                     </div>
 
                     <!-- Content Row -->
-                      <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                            <div class="dropdown no-arrow">
-                                <!-- Button trigger modal -->
-
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                    Add new
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/" method="POST" enctype="multipart/form-data">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Title</label>
-                                                        <input type="text" class="form-control" id="exampleInputEmail1"
-                                                            aria-describedby="emailHelp" placeholder="Enter title"
-                                                            name="title" required>
-
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleFormControlFile1">Image </label>
-                                                        <input type="file" class="form-control-file" id="myFile"
-                                                            name="file" required>
-                                                    </div>
-
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-
-                                                </form>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="card-body">
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                  
-                                    <tbody>
-
-                                        <% categories.forEach(function(e){ %>
-                                        <tr>
-                                            <td>
-                                                <div class="text-center">
-                                                    <img width="50" src="/uploads/<%-e.imageUrl-%>" class="rounded"
-                                                        alt="...">
-                                                </div>
-                                            </td>
-                                            <td><%-e.title-%></td>
-
-                                            <td>
-                                                <a class="btn btn-danger" href="/api/category/delete/id/<%-e._id-%>"
-                                                    onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-
-                                                <!-- Button trigger modal -->
-                                                <a class="btn btn-primary" href="/admin/category/edit/<%-e._id%>">
-                                                    Edit
-                                                </a>
-                                                <a class="btn btn-success"
-                                                    href="/admin/menu/<%-e._id-%>/add-product">
-                                                    Add product
-                                                </a>
-
-                                                <a class="btn btn-success"
-                                                    href="/admin/menu/product/<%-e._id%>">
-                                                    View Menu
-                                                </a>
-
-
-                                            </td>
-
-
-                                        </tr>
-
-
-
-                                        <% }); %>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                    
 
                     <!-- Content Row -->
 
                     
- 
+
+                    <!-- Content Row -->
                     
 
                 </div>
@@ -540,8 +439,6 @@
 
 
 
-
-
 </body>
 
-</html>
+</html> 

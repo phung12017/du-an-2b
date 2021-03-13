@@ -50,10 +50,9 @@ router.post('/admin/dashboard', (req, res) => {
 
 //menu 
 router.get('/admin/menu', CategoryController.getAllCate)
-//menu/menu/:_id/add-product
+
+//menu/:_id/add-product
 router.get('/admin/menu/:_id/add-product', CategoryController.createProduct)
-
-
 router.post('/api/createProduct', uploads.single('file'), (req, res) => {
 	const small = { small: null }
 	const med = { medium: null }
@@ -73,7 +72,7 @@ router.post('/api/createProduct', uploads.single('file'), (req, res) => {
 	// 	isActive: true,
 	// }
 
- 
+
 	try {
 		let newProd = new product({
 			title: req.body.title,
@@ -95,6 +94,13 @@ router.post('/api/createProduct', uploads.single('file'), (req, res) => {
 	} catch (error) {
 		res.json({ err: error.message })
 	}
+})
+
+//menu/product/:_idCategory
+router.get('/admin/menu/product/:_id', CategoryController.createProducts)
+
+router.get('/admin/api', (req, res) => {
+	res.render('./admin/api')
 })
 
 module.exports = router;
