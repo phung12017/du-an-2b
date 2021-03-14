@@ -52,8 +52,9 @@ exports.getProdById = async (request, response) => {
 };
 
 exports.addUser = async (req, res) => {
+	let phone = '+84' +req.body.phone;
 	let newUser = new user({
-		phone: '+84'+req.body.phone,
+		phone: phone,
 		name: req.body.name,
 		address: req.body.address})
 	if((req.body.phone 
@@ -62,7 +63,7 @@ exports.addUser = async (req, res) => {
 			res.send({msg: 'Vui lòng không để trống'})
 		}else{
 			try{
-				await user.find({phone: req.body.phone},function(err,data){
+				await user.find({phone: phone},function(err,data){
 					if(err) res.send({msg:err})
 					if(data == ''){
 						newUser.save(function(err,User){
