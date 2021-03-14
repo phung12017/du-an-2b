@@ -6,7 +6,7 @@ exports.getAllCate = async (request, response) => {
 		let categories = await category.find({isActive:true});
 		response.render('./admin/menu',{categories});
 	} catch (error) {
- 
+
 	}
 };
 
@@ -26,6 +26,5 @@ exports.createProducts = async (req, res) => {
 	res.render('./admin/menu-product',{cate,prods})
 };
 
- 
- 
- 
+
+

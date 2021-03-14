@@ -14,4 +14,5 @@ router.get('/api/products', API.getAllProd);
 router.get('/api/product/cate/:_idCategory', API.getAllProdByCate);
 router.get('/api/product/id/:_id', API.getProdById);
 router.post('/api/loginAdmin', API.loginAdmin);
+router.post('/api/loginUser',API.addUser);
 module.exports = router;
