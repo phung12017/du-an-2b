@@ -53,7 +53,7 @@ exports.getProdById = async (request, response) => {
 
 exports.addUser = async (req, res) => {
 	let newUser = new user({
-		phone: req.body.phone,
+		phone: '+84'+req.body.phone,
 		name: req.body.name,
 		address: req.body.address})
 	if((req.body.phone 
