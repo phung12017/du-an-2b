@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -10,8 +11,9 @@ const CategoryController = require('../controllers/category');
 const ProductController = require('../controllers/product');
 
 //models
-const product = require('../models/product')
-
+const Product = require('../models/product')
+const category = require('../models/category')
+const x = require('../models/x')
 // multer
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -22,9 +24,8 @@ const storage = multer.diskStorage({
 		cb(null, Date.now() + '-' + file.originalname)
 	}
 })
-const uploads = multer({
-	storage: storage
-})
+const upload = multer({storage: storage,
+}).single('file')
 
 
 
@@ -37,68 +38,43 @@ router.get('/', (req, res) => {
 	res.render('./auth/login')
 });
 
-//import models
+ 
 
+//dashboard
 router.get('/admin/dashboard', (req, res) => {
 	res.render('./admin/dashboard')
 })
-
 router.post('/admin/dashboard', (req, res) => {
 	res.render('./admin/dashboard')
 })
-
-
+ //=== Category Controller ===//
 //menu 
 router.get('/admin/menu', CategoryController.getAllCate)
+//menu -> edit menu item
+router.get('/admin/menu/edit/:_id', CategoryController.getCategoryById)
+//menu -> create menu
+router.post('/admin/menu', CategoryController.createCategory)
+router.post('/admin/menu/edit/:_id', CategoryController.editCategory)
+//menu -> disable menu item
+router.get('/admin/menu/disable/:_id', CategoryController.disableCategory)
+//menu -> enable menu item
+router.get('/admin/menu/enable/:_id', CategoryController.enableCategory)
+//menu -> remove menu item
+router.get('/admin/menu/remove/:_id', CategoryController.removeCategory)
 
-//menu/:_id/add-product
-router.get('/admin/menu/:_id/add-product', CategoryController.createProduct)
-router.post('/api/createProduct', uploads.single('file'), (req, res) => {
-	const small = { small: null }
-	const med = { medium: null }
-	const lar = { larger: null }
-	const sizes = { ...small, ...lar, ...med }
-	const toppings = []
+ 
+//=== Product Controller ===//
+//product -> getByCategory
+router.get('/admin/menu/products/:_id',ProductController.getByCate)
 
-	// const product  = {
-	// 	title: req.body.title,
-	// 	price: req.body.price,
-	// 	description: req.body.description,
-	// 	_idCategory: req.body.categoryId,
-	// 	imageUrl: req.file.filename,
-	// 	size: sizes,
-	// 	topping:toppings,
-	// 	createAt: new Date(),
-	// 	isActive: true,
-	// }
-
-
-	try {
-		let newProd = new product({
-			title: req.body.title,
-			price: req.body.price,
-			description: req.body.description,
-			_idCategory: req.body.categoryId,
-			imageUrl: req.file.filename,
-			size: sizes,
-			topping: toppings,
-			createAt: new Date(),
-			isActive: true,
-		})
-
-		newProd.save()
-
-		res.json(newProd)
+//product -> createProduct
+router.get('/admin/menu/addProductTo/:_id',ProductController.getCateById)
+router.post('/admin/menu/addProductTo/:_id', ProductController.createProduct)
+ 
+ 
 
 
-	} catch (error) {
-		res.json({ err: error.message })
-	}
-})
-
-//menu/product/:_idCategory
-router.get('/admin/menu/product/:_id', CategoryController.createProducts)
-
+//=== API Controller ===//
 router.get('/admin/api', (req, res) => {
 	res.render('./admin/api')
 })

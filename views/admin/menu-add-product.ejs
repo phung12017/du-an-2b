@@ -271,7 +271,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="">
+                                        <img class="rounded-circle" src="/img/undraw_profile_1.svg" alt="">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -358,10 +358,10 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-             
+                    <h1 class="h3 mb-0 text-gray-800 mb-4">Add Product To Menu</h1>
 
                     <!-- Content Row -->
-                    <form class="row" action="/api/createProduct" method="POST" enctype="multipart/form-data">
+                    <form class="row" action="/admin/menu/products/<%-params-%>" method="POST" enctype="multipart/form-data">
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-6 col-md-12 mb-4">
@@ -372,20 +372,20 @@
                                             class="text-gray-900 font-weight-bold">Title</label>
                                         <input type="text" class="form-control" id="exampleInputEmail1"
                                             aria-describedby="emailHelp" placeholder="Enter email" name="title"
-                                            value="Ca`">
+                                            value="Ca`" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"
                                             class="text-gray-900 font-weight-bold">Price</label>
                                         <input type="number" class="form-control" id="exampleInputEmail1"
                                             aria-describedby="emailHelp" placeholder="Enter email" name="price"
-                                            value="16000">
+                                            value="16000" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1"
                                             class="text-gray-900 font-weight-bold">Description</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" required
                                             name="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
                                     </div>
 
@@ -399,10 +399,12 @@
                             <div class="card   shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="form-group">
-
-                               
+                                        <label for="exampleInputEmail1"
+                                            class="text-gray-900 font-weight-bold">Category ID</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="Enter email" name="idCategory"
+                                            value="<%-params-%>"  readonly  />
                                     </div>
-
                                     <div class="form-group">
 
                                         <label class="text-gray-900 font-weight-bold" aria-describedby="emailHelp">
@@ -464,7 +466,7 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1"
                                             class="text-gray-900 font-weight-bold">Image </label>
-                                        <input type="file" class="form-control-file" id="myFile" name="file">
+                                        <input type="file" class="form-control-file" id="myFile" name="file" required>
                                     </div>
                                     <button class="btn btn-primary" type="submit">Submit</button>
 
