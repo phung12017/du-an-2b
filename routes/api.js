@@ -13,7 +13,7 @@ router.get('/api/categories', API.getAllCate);
 router.get('/api/products', API.getAllProd);
 router.get('/api/product/cate/:_idCategory', API.getAllProdByCate);
 router.get('/api/product/id/:_id', API.getProdById);
-router.get('/api/authUser',API.authUser);
+router.get('/api/authUser/:phone',API.authUser);
 router.post('/api/loginAdmin', API.loginAdmin);
 router.post('/api/loginUser',API.addUser);
 router.post('/api/orders',API.createOrder)

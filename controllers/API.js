@@ -87,7 +87,7 @@ exports.addUser = async (req, res) => {
 }
 
 exports.authUser = async (req,res) => {
-	let phone = '+84' +req.body.phone;
+	let phone = '+84' +req.params.phone;
 	try{
 		await user.findOne({phone},function(err,User){
 			if(err){
@@ -104,21 +104,30 @@ exports.authUser = async (req,res) => {
 exports.createOrder = async (req,res) => {
 	let newOrder = new order({
         _uid: req.body._uid,
-        products: {_idProduct: req.body._idProduct},
+        products: 
+		[
+			{_idProduct: req.body._idProduct},
+		],
         createAt: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
         updateAt: null,
         status: 'Tiki đã tiếp nhận đơn hàng của bạn...'
     });
 	console.log(newOrder)
 	try{
-		await newOrder.save(function(err,data){
-			if(err) res.send({msg: err})
-			res.send(data)
+		await newOrder.save(function(err,doc){
+			if (err) {
+				
+			}else{
+			}
 		})
 	}catch(err){
-
+//day ne ba
 	}
 }
+
+
+
+
 
 
 exports.loginAdmin = async (req,res)=>{
