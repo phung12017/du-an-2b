@@ -1,8 +1,12 @@
 
 const { request, response } = require('express');
+const { reset } = require('nodemon');
+const moment = require('moment');
 const category = require('../models/category');
 const product = require('../models/product');
 const user = require('../models/user');
+const order = require('../models/order');
+const { use } = require('../routes/api');
 
 exports.getAllCate = async (request, response) => {
 	try {
@@ -76,10 +80,44 @@ exports.addUser = async (req, res) => {
 						res.send({msg: 'Tài khoản đã tồn tại',data})
 					}
 				})
-			}catch(error){
-				res.send({msg:error});
+			}catch(err){
+				console.log(err)
 			}
 		}
+}
+
+exports.authUser = async (req,res) => {
+	let phone = '+84' +req.body.phone;
+	try{
+		await user.findOne({phone},function(err,User){
+			if(err){
+				res.send({msg: err})
+			}else{
+				res.send(User)
+			}
+		})
+	}catch(err){
+		res.send({msg:err});
+	}
+}
+
+exports.createOrder = async (req,res) => {
+	let newOrder = new order({
+        _uid: req.body._uid,
+        products: {_idProduct: req.body._idProduct},
+        createAt: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
+        updateAt: null,
+        status: 'Tiki đã tiếp nhận đơn hàng của bạn...'
+    });
+	console.log(newOrder)
+	try{
+		await newOrder.save(function(err,data){
+			if(err) res.send({msg: err})
+			res.send(data)
+		})
+	}catch(err){
+
+	}
 }
 
 
