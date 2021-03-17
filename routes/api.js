@@ -16,5 +16,6 @@ router.get('/api/product/id/:_id', API.getProdById);
 router.get('/api/authUser/:phone',API.authUser);
 router.post('/api/loginAdmin', API.loginAdmin);
 router.post('/api/loginUser',API.addUser);
-router.post('/api/orders',API.createOrder)
+router.post('/api/order',API.createOrder)
+router.get('/api/findOder',API.findOder)
 module.exports = router;
