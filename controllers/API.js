@@ -1,11 +1,10 @@
-
-const { request, response } = require('express');
 const { reset } = require('nodemon');
 const moment = require('moment');
 const category = require('../models/category');
 const product = require('../models/product');
 const user = require('../models/user');
 const order = require('../models/order');
+const Cart = require('../models/cart');
 const { use } = require('../routes/api');
 const e = require('express');
 
@@ -105,64 +104,179 @@ exports.createOrder = async (req, res) => {
 	if (!req.body._uid
 		|| !req.body.status
 		|| !req.body.products) {
-		res.send({ msg2: 'Vui lòng không để trống.' })
+		res.send({ msg: 'Vui lòng không để trống.' })
 	} else {
-		const { _uid, status, products } = req.body
-		if (products) {
-			let arr;
-			if (Array.isArray(products)) {
-				arr = products.map((e, i) => {
-					const item = {
-						_idProduct: e
-					}
-					return item
-				})
-			} else {
-				arr = [{
-					_idProduct: products
-				}]
+		try {
+			const { _uid, status, products } = req.body
+			if (products) {
+				let arr;
+				if (Array.isArray(products)) {
+					arr = products.map((e, i) => {
+						const item = {
+							_idProduct: e
+						}
+						return item
+					})
+				} else {
+					arr = [{
+						_idProduct: products
+					}]
+				}
+				if (arr.length >= 1) {
+					let newOder = new order({
+						_uid: _uid,
+						products: arr,
+						createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+						updateAt: null,
+						status: status,
+					})
+					await newOder.save(function (err, Order) {
+						if (err) {
+							res.send({
+								msg: err
+							})
+							res.end()
+						} else {
+							res.json({
+								items: Order
+							})
+							res.end()
+						}
+					})
+				}
 			}
-			if (arr.length >= 1) {
-				let newOder = new order({
-					_uid: _uid,
-					products: arr,
-					createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
-					status: status,
-				})
-				await newOder.save(function (err, Order) {
-					if (err) {
-						res.send({
-							msg: err
-						})
-						res.end()
-					} else {
-						res.json({
-							items: Order
-						})                           
-						res.end()
-					}
-				})
-			}                                       
-		}
+		} catch (err) { }
 	}
 }
 
 exports.findOder = async (req, res) => {
 	const { _uid } = req.query
-	await order.findOne({ '_uid': _uid }).populate('products._idProduct').exec(function (err, data) {
-		if (err) {
-			res.send({
-				message: err
-			})
-			res.end()
-		} else {
-			res.json({
-				items: data
-			})
-			res.end()
-		}
-	})
+	if( !_uid ){
+		res.send({msg: 'Vui lòng không để trống.'})
+	}else{
+		await order.findOne({ '_uid': _uid }).populate('products._idProduct').exec(function (err, data) {
+			if (err) {
+				res.send({
+					message: err
+				})
+				res.end()
+			} else {
+				res.json({
+					order: data
+				})
+				res.end()
+			}
+		})
+	}
+}
 
+exports.addCart = function (req, res) {
+	const { _uid, _idProduct } = req.body;
+	const quality = Number.parseInt(req.body.quality);
+	if (!req.body._uid
+		|| !req.body.quality
+		|| !req.body._idProduct) {
+		res.send({ msg: 'Vui lòng không để trống.' })
+	} else {
+		Cart.findOne({ _uid: _uid })
+			.exec()
+			.then(cart => {
+				if (!cart && quality <= 0) {
+					throw new Error('Invalid request');
+				} else if (cart) {
+					const indexFound = cart.products.findIndex(item => {
+						return item._idProduct == _idProduct;
+					});
+					if (indexFound !== -1 && quality <= 0) {
+						cart.products.splice(indexFound, 1);
+					} else if (indexFound !== -1) {
+						cart.products[indexFound].quality = cart.products[indexFound].quality + quality;
+					} else if (quality > 0) {
+						cart.products.push({
+							_idProduct: _idProduct,
+							quality: quality
+						});
+					} else {
+						throw new Error('Invalid request');
+					}
+					return cart.save();
+				} else {
+					const cartData = {
+						_uid: _uid,
+						products: [
+							{
+								_idProduct: _idProduct,
+								quality: quality
+							}
+						]
+					};
+					cart = new Cart(cartData);
+					return cart.save();
+				}
+			})
+			.then(savedCart => res.json(savedCart))
+			.catch(err => {
+				console.log(err)
+			});
+	}
+};
+
+exports.updateCart = function (req, res) {
+	const { _uid, _idProduct } = req.body;
+	const quality = Number.parseInt(req.body.quality);
+	if (!req.body._uid
+		|| !req.body.quality
+		|| !req.body._idProduct) {
+		res.send({ msg: 'Vui lòng không để trống.' })
+	} else {
+		Cart.findOne({ _uid: _uid })
+			.exec()
+			.then(cart => {
+				if (!cart && quality <= 0) {
+					throw new Error('Invalid request');
+				} else{
+					const indexFound = cart.products.findIndex(item => {
+						return item._idProduct == _idProduct;
+					});
+					if (indexFound !== -1) {
+						let updatedQty = cart.products[indexFound].quality - quality;
+						if (updatedQty <= 0) {
+							cart.products.splice(indexFound, 1);
+						} else {
+							cart.products[indexFound].quality = updatedQty;
+						}
+						return cart.save();
+					} else {
+						throw new Error('Invalid request');
+					}
+				}
+			})
+			.then(updatedCart => res.json(updatedCart))
+			.catch(err => {
+				console.log(err)
+			});
+	}
+};
+
+exports.findCart = async (req, res) => {
+	const { _uid } = req.query;
+	if( !_uid ){
+		res.send({msg: 'Vui lòng không để trống.'})
+	}else{
+		await Cart.findOne({ '_uid': _uid }).populate('products._idProduct').exec(function (err, data) {
+			if (err) {
+				res.send({
+					message: err
+				})
+				res.end()
+			} else {
+				res.json({
+					cart: data
+				})
+				res.end()
+			}
+		})
+	}
 }
 
 

@@ -9,6 +9,7 @@ const orderSchema = new Schema({
     _uid: { type: Schema.Types.ObjectId },
     products: [childSchema],
     createAt: { type: Date },
+    updateAt: { type: Date },
     status: { type: Number },
 });
 

@@ -18,4 +18,7 @@ router.post('/api/loginAdmin', API.loginAdmin);
 router.post('/api/loginUser',API.addUser);
 router.post('/api/order',API.createOrder)
 router.get('/api/findOder',API.findOder)
+router.post('/api/cart',API.addCart);
+router.post('/api/updateCart',API.updateCart);
+router.get('/api/findCart',API.findCart);
 module.exports = router;
