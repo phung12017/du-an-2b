@@ -3,6 +3,7 @@ const Category = require('../models/category');
 
 // multer
 const multer = require('multer');
+const { json } = require('body-parser');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads')
@@ -45,30 +46,32 @@ exports.edit = async (req, res) => {
     }
 };
 
-exports.update = async (req, res) => {
 
-    if (req.file) {
-        try {
-            json({ msg: 'upload file' })
-        } catch (error) {
-            json({ error: 'error' })
-        }
-    } else {
-        json({ msg: 'update product' })
-    }
-};
 
 exports.remove = async (req, res) => {
 
-    await Product.findOneAndRemove({ _id: req.params._id }, function (err) {
-        if (err) {
-            res.json({
-                err: err
-            })
-        } else {
+    try {
+
+        let r1 = await Product.findByIdAndRemove({ _id: req.params._id })
+        if (r1) {
+            let result = await Category.findOneAndUpdate({
+                _id: r1._idCategory
+            },
+
+                {
+                    $pull: {
+                        products: r1._id
+                    }
+                }
+            )
             res.redirect('/admin/products')
         }
-    })
+
+
+    } catch (error) {
+        res.json({ msg: error })
+    }
+
 };
 
 
@@ -91,10 +94,10 @@ exports.createProduct = async (req, res) => {
 
                 let topping = []
                 for (let i = 0; i < data['name'].length; i++) {
-                    if (data.name[i] && data.price[i]) {
+                    if (data.name[i] && data.value[i]) {
                         topping.push({
                             'name': data.name[i],
-                            'price': data.price[i]
+                            'value': data.value[i]
                         })
                     }
                 }
@@ -128,9 +131,10 @@ exports.createProduct = async (req, res) => {
                             { $push: { products: product._id } },
                             function (err) {
                                 if (err) {
-                                    res.json({ kq: 0, err: err })
+                                    res.json({ msg: 'err' })
                                 } else {
-                                    res.json({ product })
+                                    res.redirect('/admin/products')
+
                                 }
                             }
                         )
@@ -144,4 +148,35 @@ exports.createProduct = async (req, res) => {
 
 
 }
+exports.update = async (req, res) => {
 
+    if (req.file) {
+        try {
+            res.json({ msg: 'upload file' })
+        } catch (error) {
+            res.json({ error: 'error' })
+        }
+    } else {
+        try {
+
+ 
+
+            let result = await Product.findOneAndUpdate({
+                _id: req.params._id
+            }, {
+                price: req.body.price,
+                description: req.body.description,
+                size: {
+                    small: null,
+                    medium: req.body.haftSize * 1 || null,
+                    large: req.body.haftSize * 2 || null
+                },
+              
+
+            })
+            res.json(result)
+        } catch (error) {
+            res.json({ msg: err })
+        }
+    }
+};
