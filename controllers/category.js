@@ -20,11 +20,22 @@ const Product = require('../models/product');
 exports.getAllCate = async (request, response) => {
 	try {
 		let categories = await Category.find({});
-		response.render('./admin/menu', { categories });
+		response.render('./menu/list', { categories });
 	} catch (error) {
-		json({ 'err': error })
+		res.json({ 'err': error })
 	}
 };
+exports.getMenuDetails = async (req, res) => {
+
+	try {
+		let prods = await Product.find({ _idCategory: req.params._id });
+ 
+	res.render('./menu/list-by-id',{prods})
+	} catch (error) {
+		res.json({ 'err': error })
+	}
+};
+
 exports.createCategory = async (req, res) => {
 
 	upload(req, res, function (err) {
@@ -46,7 +57,7 @@ exports.createCategory = async (req, res) => {
 					if (err) {
 						res.json({ kq: 0, err: err })
 					} else {
-						res.json({ kq: 1, category })
+						res.redirect('/admin/menu')
 					}
 				})
 			} else {
@@ -102,7 +113,7 @@ exports.getCategoryById = async (req, res) => {
 		//response.render('./admin/menu', { categories });
 		res.render('./admin/menu-edit', { category })
 	} catch (error) {
-		json({ 'err': error })
+		res.json({ 'err': error })
 	}
 
 }
@@ -110,29 +121,29 @@ exports.getCategoryById = async (req, res) => {
 exports.editCategory = async (req, res) => {
 	const _id = req.params._id
 	console.log(_id)
-	upload(req, res,  function (err) {
+	upload(req, res, function (err) {
 		if (err instanceof multer.MulterError) {
 			console.log('A Multer error occurred when uploading .');
 		} else if (err) {
 			console.log('An unknown error occurred when uploading .');
 		} else {
-			 if(req.file && req.body.title){
-				 Category.findOneAndUpdate({_id:_id},{title:req.body.title,imageUrl:req.file.filename},function(err){
-					 if(err){
-						 res.json({msg:err})
-					 }else{
-						 res.redirect('/admin/menu')
-					 }
-				 })  
-			 }else{
-				Category.findOneAndUpdate({_id:_id},{title:req.body.title },function(err){
-					if(err){
-						res.json({msg:err})
-					}else{
+			if (req.file && req.body.title) {
+				Category.findOneAndUpdate({ _id: _id }, { title: req.body.title, imageUrl: req.file.filename }, function (err) {
+					if (err) {
+						res.json({ msg: err })
+					} else {
 						res.redirect('/admin/menu')
 					}
-				})  
-			 }
+				})
+			} else {
+				Category.findOneAndUpdate({ _id: _id }, { title: req.body.title }, function (err) {
+					if (err) {
+						res.json({ msg: err })
+					} else {
+						res.redirect('/admin/menu')
+					}
+				})
+			}
 		}
 	})
 

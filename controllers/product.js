@@ -15,14 +15,50 @@ const upload = multer({
     storage: storage,
 }).single('file')
 
-exports.getByCate = async (req, res) => {
-    const _id = req.params._id
+exports.getAll = async (req, res) => {
 
-    const cate = await Category.findOne({ _id: _id })
-    const prods = await Product.find({ _idCategory: _id })
-
-    res.render('./admin/menu-product', { cate, prods })
+    const prods = await Product.find().sort({ _idCategory: -1 })
+    //res.json(prods)
+    res.render('./product/list', { prods })
 };
+
+
+exports.add = async (req, res) => {
+    try {
+        let cats = await Category.find({});
+        res.render('./product/add', { cats });
+    } catch (error) {
+        res.json({ 'err': error })
+    }
+}
+
+
+
+exports.edit = async (req, res) => {
+
+    try {
+        let cats = await Category.find({});
+        let product = await Category.findOne({ _id: req.params._id });
+        res.render('./product/add', { cats, product });
+    } catch (error) {
+        res.json({ 'err': error })
+    }
+};
+
+
+exports.remove = async (req, res) => {
+
+    await Product.findOneAndRemove({ _id: req.params._id }, function (err) {
+        if (err) {
+            res.json({
+                err: err
+            })
+        } else {
+            res.redirect('/admin/products')
+        }
+    })
+};
+
 
 
 exports.createProduct = async (req, res) => {
@@ -34,36 +70,47 @@ exports.createProduct = async (req, res) => {
             console.log('An unknown error occurred when uploading .');
         } else {
             console.log('upload is okay');
-            console.log(req.file);
+     
             if (req.body.title && req.body.price) {
+                console.log(req.body.topping    )
                 let product = new Product({
                     title: req.body.title,
                     price: req.body.price,
                     imageUrl: req.file.filename,
                     _idCategory: req.body.idCategory,
-                    isActive: true
+                    isActive: true,
+                    size:{
+                        small:null,
+                        medium:req.body.haftSize *1,
+                        large:req.body.haftSize * 2
+                    },
+                    // topping: [...req.body.topping]
+                    
                 })
-                product.save(function (err) {
-                    if (err) {
-                        res.json({
-                            kq: 0,
-                            err: err
-                        })
-                    } else {
 
-                  
-                        Category.findByIdAndUpdate({ _id: req.body.idCategory },
-                            { $push: { products: product._id } },
-                            function (err) {
-                                if (err) {
-                                    json({ kq: 0, err: err })
-                                } else {
-                                    res.redirect('/admin/menu')
-                                }
-                            }
-                        )
-                    }
-                })
+                res.json(product)
+                // product.save(function (err) {
+                //     if (err) {
+                //         res.json({
+                //             kq: 0,
+                //             err: err
+                //         })
+                //     } else {
+
+
+
+                //         Category.findByIdAndUpdate({ _id: req.body.idCategory },
+                //             { $push: { products: product._id } },
+                //             function (err) {
+                //                 if (err) {
+                //                     json({ kq: 0, err: err })
+                //                 } else {
+                //                     res.redirect('/admin/menu')
+                //                 }
+                //             }
+                //         )
+                //     }
+                // })
 
 
             }
@@ -73,7 +120,3 @@ exports.createProduct = async (req, res) => {
 
 }
 
-exports.getCateById = async (req,res)=>{
-    const params =req.params._id
-    res.render('./product/product-add',{params})
-}

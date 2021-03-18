@@ -42,14 +42,14 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item  ">
                 <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/menu">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Menu</span></a>
@@ -377,13 +377,130 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+
+                    <!-- Content Row -->
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Menu: <%-categories.length-%> item</h6>
+                                <div class="dropdown no-arrow">
+                                    <!-- Button trigger modal -->
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModal">
+                                        Add new
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-gray-900 font-weight-bold"
+                                                        id="exampleModalLabel">Add new menu</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="/admin/menu" method="POST"
+                                                        enctype="multipart/form-data">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1"
+                                                                class="text-gray-900 font-weight-bold">Title</label>
+                                                            <input type="text" class="form-control"
+                                                                id="exampleInputEmail1" aria-describedby="emailHelp"
+                                                                placeholder="Enter title" name="title" required>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlFile1"
+                                                                class="text-gray-900 font-weight-bold">Image </label>
+                                                            <input type="file" class="form-control-file" id="myFile"
+                                                                name="file" required>
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-primary">Save
+                                                            changes</button>
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Product</th>
+                                                <th>Active</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <% categories.forEach(function(e){ %>
+                                            <tr>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <img width="50" src="/uploads/<%-e.imageUrl-%>" class="rounded"
+                                                            alt="...">
+                                                    </div>
+                                                </td>
+                                                <td><%-e.title-%></td>
+                                                <th><%-e.products.length-%></th>
+                                                <td class="text-gray-000"><%-e.isActive-%></td>
+                                                <td>
+
+                                                    <% if (e.isActive === true) { %>
+                                                    <a class="btn btn-warning" href="/admin/menu/disable/<%-e._id-%>"
+                                                        onclick="return confirm('Are you sure you want to Disable this item?');">Disable</a>
+
+                                                    <% } else {%>
+                                                    <a class="btn btn-primary" href="/admin/menu/enable/<%-e._id-%>"
+                                                        onclick="return confirm('Are you sure you want to Enable this item?');">Enable</a>
+                                                    <%}%>
+                                                                                      
+                                                <!-- Button trigger modal -->
+                                                <a class="btn btn-primary" href="/admin/menu/edit/<%-e._id-%>">
+                                                    Edit
+                                                </a>
+
+                                                <a class="btn btn-success" href="/admin/menu/details/<%- e._id -%>">
+                                                    View
+                                                </a>
+                                                <a class="btn btn-danger" href="/admin/menu/remove/<%-e._id-%>"
+                                                        onclick="return confirm('Are you sure you want to Remove this item?');">Remove</a>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
- 
+
+                    <!-- Content Row -->
+
+
+
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -433,21 +550,23 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
+
+
 
 
 

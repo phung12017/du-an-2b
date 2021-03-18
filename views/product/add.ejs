@@ -9,16 +9,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Tables</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -42,7 +45,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item  ">
                 <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -56,7 +59,7 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/products">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Products</span></a>
@@ -178,9 +181,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
 
                     <!-- Topbar Search -->
                     <form
@@ -379,11 +384,123 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <h1 class="h3 mb-0 text-gray-800">Create Product </h1>
+
                     </div>
- 
+
+                    <!-- DataTales Example -->
+                    <!-- Content Row -->
+                    <form class="row" action="/admin/product/add " method="POST" enctype="multipart/form-data">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-6 col-md-12 mb-4">
+                            <div class="card   shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"
+                                            class="text-gray-900 font-weight-bold">Title</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="Enter email" name="title"
+                                            value="Ca`" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"
+                                            class="text-gray-900 font-weight-bold">Price</label>
+                                        <input type="number" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="Enter email" name="price"
+                                            value="16000" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1"
+                                            class="text-gray-900 font-weight-bold">Description</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                            required
+                                            name="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-6 col-md-12 mb-4">
+                            <div class="card   shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1"
+                                            class="text-gray-900 font-weight-bold">Category </label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <% cats.forEach(function(e){ %>
+                                            <option value="<%-e._id-%>"><%-e.title-%></option>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label class="text-gray-900 font-weight-bold" aria-describedby="emailHelp">
+                                            Size (option)</label>
+
+                                        <input type="number" class="form-control" placeholder="Haft size" name="haftSize">
+                                        <small id="emailHelp" class="form-text text-muted">Full size = 2 Haft size</small>
+
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="text-gray-900 font-weight-bold" aria-describedby="emailHelp">
+                                            Topping (option)</label>
+
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="text" class="form-control" placeholder="Name"
+                                                        name="topping[name]" value="x">
+                                                </div>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" placeholder="Value"
+                                                        name="topping[price]" value="1">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="text" class="form-control" placeholder="Name"
+                                                        name="topping[name]" value="y">
+                                                </div>
+                                                <div class="col">
+                                                    <input type="number" class="form-control" placeholder="Value"
+                                                        name="topping[price]" value="2">
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-12 col-md-12 mb-4">
+                            <div class="card   shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlFile1"
+                                            class="text-gray-900 font-weight-bold">Image </label>
+                                        <input type="file" class="form-control-file" id="myFile" name="file" required>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -395,7 +512,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website 2020</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -433,23 +550,21 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
-
+    <script src="/js/demo/datatables-demo.js"></script>
 
 </body>
 

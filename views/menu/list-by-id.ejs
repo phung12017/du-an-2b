@@ -9,16 +9,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Tables</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -42,14 +45,14 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item  ">
                 <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item active ">
                 <a class="nav-link" href="/admin/menu">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Menu</span></a>
@@ -178,9 +181,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
 
                     <!-- Topbar Search -->
                     <form
@@ -379,11 +384,81 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <h1 class="h3 mb-0 text-gray-800">Products: <%-prods.length%></h1>
+                        <a href="/admin/product/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-edit fa-sm text-white-50"></i> Create Product</a>
                     </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                   
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>ID Category</th>
+                                            <th>Active</th>
+                                            <th>Action</th>
+                                          
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+
+                                        
+
+                                        <% prods.forEach(function(e){ %>
+                                        <tr>
+                                            <td>
+                                                <div class="text-center">
+                                                    <img width="50" src="/uploads/<%-e.imageUrl-%>" class="rounded"
+                                                        alt="...">
+                                                </div>
+                                            </td>
+                                            <td><%-e.title-%></td>
+                                            <td>
+                                                <%-e.price-%>
+                                            </td>
+
+                                            <td><%-e._idCategory-%></td>
+
+                                            <td class="text-gray-000"><%-e.isActive-%></td>
+                                            <td>
+
+                                                <% if (e.isActive === true) { %>
+                                                <a class="btn btn-warning" href="/admin/product/disable/<%-e._id-%>"
+                                                    onclick="return confirm('Are you sure you want to Disable this item?');">Disable</a>
+
+                                                <% } else {%>
+                                                <a class="btn btn-primary" href="/admin/product/enable/<%-e._id-%>"
+                                                    onclick="return confirm('Are you sure you want to Enable this item?');">Enable</a>
+                                                <%}%>
+                                                                                      
+                                                <!-- Button trigger modal -->
+                                                <a class="btn btn-primary" href="/admin/product/edit/<%-e._id%>">
+                                                Edit
+                                                </a>
+                                       
  
+
+                                                <a class="btn btn-danger" href="/admin/product/remove/<%-e._id-%>"
+                                                    onclick="return confirm('Are you sure you want to Remove this item?');">Remove</a>
+                                            </td>
+                                        
+                                        </tr>
+                                        <% }); %>
+                                     
+                              
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -395,7 +470,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website 2020</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -433,24 +508,22 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
-
+    <script src="/js/demo/datatables-demo.js"></script>
 
 </body>
 
-</html>
+</html> 

@@ -13,7 +13,7 @@ const ProductController = require('../controllers/product');
 //models
 const Product = require('../models/product')
 const category = require('../models/category')
-const x = require('../models/x')
+ 
 // multer
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -48,8 +48,11 @@ router.post('/admin/dashboard', (req, res) => {
 	res.render('./admin/dashboard')
 })
  //=== Category Controller ===//
-//menu 
+//menu -> getAll
 router.get('/admin/menu', CategoryController.getAllCate)
+
+//menu -> get
+router.get('/admin/menu/details/:_id', CategoryController.getMenuDetails)
 //menu -> edit menu item
 router.get('/admin/menu/edit/:_id', CategoryController.getCategoryById)
 //menu -> create menu
@@ -64,13 +67,17 @@ router.get('/admin/menu/remove/:_id', CategoryController.removeCategory)
 
  
 //=== Product Controller ===//
-//product -> getByCategory
-router.get('/admin/menu/products/:_id',ProductController.getByCate)
+//product -> getAll
+router.get('/admin/products',ProductController.getAll)
 
-//product -> createProduct
-router.get('/admin/menu/addProductTo/:_id',ProductController.getCateById)
-router.post('/admin/menu/addProductTo/:_id', ProductController.createProduct)
- 
+//product -> remove
+router.get('/admin/product/remove/:_id',ProductController.remove)
+
+//product -> edit
+router.get('/admin/product/edit/:_id',ProductController.edit)
+router.get('/admin/product/add',ProductController.add)
+router.post('/admin/product/add',ProductController.createProduct)
+
  
 
 
