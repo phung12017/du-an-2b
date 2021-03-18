@@ -37,14 +37,26 @@ exports.add = async (req, res) => {
 exports.edit = async (req, res) => {
 
     try {
-        let cats = await Category.find({});
-        let product = await Category.findOne({ _id: req.params._id });
-        res.render('./product/add', { cats, product });
+        let product = await Product.findOne({ _id: req.params._id });
+
+        res.render('./product/edit', { product });
     } catch (error) {
         res.json({ 'err': error })
     }
 };
 
+exports.update = async (req, res) => {
+
+    if (req.file) {
+        try {
+            json({ msg: 'upload file' })
+        } catch (error) {
+            json({ error: 'error' })
+        }
+    } else {
+        json({ msg: 'update product' })
+    }
+};
 
 exports.remove = async (req, res) => {
 
@@ -70,47 +82,60 @@ exports.createProduct = async (req, res) => {
             console.log('An unknown error occurred when uploading .');
         } else {
             console.log('upload is okay');
-     
+
+
+
+
             if (req.body.title && req.body.price) {
-                console.log(req.body.topping    )
+                const data = req.body.topping
+
+                let topping = []
+                for (let i = 0; i < data['name'].length; i++) {
+                    if (data.name[i] && data.price[i]) {
+                        topping.push({
+                            'name': data.name[i],
+                            'price': data.price[i]
+                        })
+                    }
+                }
+
                 let product = new Product({
                     title: req.body.title,
                     price: req.body.price,
+                    description: req.body.description,
+                    _idCategory: req.body._idCategory,
                     imageUrl: req.file.filename,
-                    _idCategory: req.body.idCategory,
+                    createAt: new Date(),
                     isActive: true,
-                    size:{
-                        small:null,
-                        medium:req.body.haftSize *1,
-                        large:req.body.haftSize * 2
+                    size: {
+                        small: null,
+                        medium: req.body.haftSize * 1 || null,
+                        large: req.body.haftSize * 2 || null
                     },
-                    // topping: [...req.body.topping]
-                    
+                    topping: topping,
+
                 })
 
-                res.json(product)
-                // product.save(function (err) {
-                //     if (err) {
-                //         res.json({
-                //             kq: 0,
-                //             err: err
-                //         })
-                //     } else {
 
-
-
-                //         Category.findByIdAndUpdate({ _id: req.body.idCategory },
-                //             { $push: { products: product._id } },
-                //             function (err) {
-                //                 if (err) {
-                //                     json({ kq: 0, err: err })
-                //                 } else {
-                //                     res.redirect('/admin/menu')
-                //                 }
-                //             }
-                //         )
-                //     }
-                // })
+                product.save(function (err) {
+                    if (err) {
+                        res.json({
+                            kq: 0,
+                            err: err
+                        })
+                    } else {
+                        Category.findByIdAndUpdate({ _id: req.body._idCategory },
+                            { $push: { products: product._id } },
+                            function (err) {
+                                if (err) {
+                                    res.json({ kq: 0, err: err })
+                                } else {
+                                    res.json({ product })
+                                }
+                            }
+                        )
+                    }
+                })
 
 
             }

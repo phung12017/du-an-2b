@@ -66,17 +66,21 @@ router.get('/admin/menu/enable/:_id', CategoryController.enableCategory)
 router.get('/admin/menu/remove/:_id', CategoryController.removeCategory)
 
  
-//=== Product Controller ===//
+//=== Product Controller ===//\
+
 //product -> getAll
 router.get('/admin/products',ProductController.getAll)
+
+//product -> add 
+router.get('/admin/product/add',ProductController.add)
+router.post('/admin/product/add',ProductController.createProduct)
 
 //product -> remove
 router.get('/admin/product/remove/:_id',ProductController.remove)
 
 //product -> edit
 router.get('/admin/product/edit/:_id',ProductController.edit)
-router.get('/admin/product/add',ProductController.add)
-router.post('/admin/product/add',ProductController.createProduct)
+router.post('/admin/product/edit/:_id',ProductController.update)
 
  
 

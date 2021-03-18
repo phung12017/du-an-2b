@@ -400,15 +400,15 @@
                                         <label for="exampleInputEmail1"
                                             class="text-gray-900 font-weight-bold">Title</label>
                                         <input type="text" class="form-control" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp" placeholder="Enter email" name="title"
-                                            value="Ca`" required>
+                                            aria-describedby="emailHelp" placeholder="Enter title" name="title" value=""
+                                            required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"
                                             class="text-gray-900 font-weight-bold">Price</label>
                                         <input type="number" class="form-control" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp" placeholder="Enter email" name="price"
-                                            value="16000" required>
+                                            aria-describedby="emailHelp" placeholder="Enter price" name="price"
+                                            value="" required>
                                     </div>
 
                                     <div class="form-group">
@@ -431,10 +431,10 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1"
                                             class="text-gray-900 font-weight-bold">Category </label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
+                                        <select class="form-control" id="exampleFormControlSelect1" name="_idCategory">
                                             <% cats.forEach(function(e){ %>
                                             <option value="<%-e._id-%>"><%-e.title-%></option>
-                                            <% }); %>
+                                            <% })  %>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -442,10 +442,12 @@
                                         <label class="text-gray-900 font-weight-bold" aria-describedby="emailHelp">
                                             Size (option)</label>
 
-                                        <input type="number" class="form-control" placeholder="Haft size" name="haftSize">
-                                        <small id="emailHelp" class="form-text text-muted">Full size = 2 Haft size</small>
+                                        <input type="number" class="form-control" placeholder="Haft size"
+                                            name="haftSize">
+                                        <small id="emailHelp" class="form-text text-muted">Full size =   Haft
+                                            size x 2</small>
 
-
+ 
                                     </div>
 
                                     <div class="form-group">
@@ -454,27 +456,27 @@
                                             Topping (option)</label>
 
 
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input type="text" class="form-control" placeholder="Name"
-                                                        name="topping[name]" value="x">
-                                                </div>
-                                                <div class="col">
-                                                    <input type="number" class="form-control" placeholder="Value"
-                                                        name="topping[price]" value="1">
-                                                </div>
+                                        <div class="row mb-4">
+                                            <div class="col">
+                                                <input type="text" class="form-control" placeholder="Name"
+                                                    name="topping[name]">
                                             </div>
+                                            <div class="col">
+                                                <input type="number" class="form-control" placeholder="Value"
+                                                    name="topping[value]">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <input type="text" class="form-control" placeholder="Name"
+                                                    name="topping[name]">
+                                            </div>
+                                            <div class="col">
+                                                <input type="number" class="form-control" placeholder="Value"
+                                                    name="topping[price]">
+                                            </div>
+                                        </div>
 
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input type="text" class="form-control" placeholder="Name"
-                                                        name="topping[name]" value="y">
-                                                </div>
-                                                <div class="col">
-                                                    <input type="number" class="form-control" placeholder="Value"
-                                                        name="topping[price]" value="2">
-                                                </div>
-                                            </div>
                                     </div>
                                 </div>
                             </div>
