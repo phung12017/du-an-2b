@@ -427,14 +427,7 @@
                                             <td class="text-gray-000"><%-e.isActive-%></td>
                                             <td>
 
-                                                <% if (e.isActive === true) { %>
-                                                <a class="btn btn-warning" href="/admin/product/disable/<%-e._id-%>"
-                                                    onclick="return confirm('Are you sure you want to Disable this item?');">Disable</a>
-
-                                                <% } else {%>
-                                                <a class="btn btn-primary" href="/admin/product/enable/<%-e._id-%>"
-                                                    onclick="return confirm('Are you sure you want to Enable this item?');">Enable</a>
-                                                <%}%>
+                                            
                                                                                       
                                                 <!-- Button trigger modal -->
                                                 <a class="btn btn-primary" href="/admin/product/edit/<%-e._id%>">

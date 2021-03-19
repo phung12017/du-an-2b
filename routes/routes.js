@@ -12,8 +12,9 @@ const ProductController = require('../controllers/product');
 
 //models
 const Product = require('../models/product')
-const category = require('../models/category')
- 
+const Category = require('../models/category')
+const User = require('../models/user')
+const Order = require('../models/order')
 // multer
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -41,11 +42,22 @@ router.get('/', (req, res) => {
  
 
 //dashboard
-router.get('/admin/dashboard', (req, res) => {
-	res.render('./admin/dashboard')
+router.get('/admin/dashboard',async (req,res)=>{
+	let categoryCount = await Category.count()
+	let productCount = await Product.count()
+	let userCount = await User.count()
+	let orderCount = await Order.count()
+	let bestSeller = await Product.find({_idCategory:'605432bed8b32e0fe4770cc7'})
+	let orderStatus = {
+		cancel: await Order.count({status:3}),
+		processing:await Order.count({status:0}),
+		delivery:await Order.count({status:1}),
+		success:await Order.count({status:2})
+	}
+	res.render('./admin/dashboard',{categoryCount,productCount,userCount,orderCount,orderStatus,bestSeller})
 })
 router.post('/admin/dashboard', (req, res) => {
-	res.render('./admin/dashboard')
+	res.redirect('/admin/dashboard')
 })
  //=== Category Controller ===//
 //menu -> getAll
@@ -89,5 +101,6 @@ router.post('/admin/product/edit/:_id',ProductController.update)
 router.get('/admin/api', (req, res) => {
 	res.render('./admin/api')
 })
+
 
 module.exports = router;

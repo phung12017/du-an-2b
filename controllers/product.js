@@ -148,35 +148,78 @@ exports.createProduct = async (req, res) => {
 
 
 }
-exports.update = async (req, res) => {
+exports.update = async  (req, res) => {
+    upload(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+            console.log('A Multer error occurred when uploading .');
+        } else if (err) {
+            console.log('An unknown error occurred when uploading .');
+        } else {
+            if (req.file) {
 
-    if (req.file) {
-        try {
-            res.json({ msg: 'upload file' })
-        } catch (error) {
-            res.json({ error: 'error' })
+
+                if (req.body.title && req.body.price) {
+                    // const data = req.body.topping
+
+                    // let topping = []
+                    // for (let i = 0; i < data['name'].length; i++) {
+                    //     if (data.name[i] && data.value[i]) {
+                    //         topping.push({
+                    //             'name': data.name[i],
+                    //             'value': data.value[i]
+                    //         })
+                    //     }
+                    // }
+                    try {
+                        let result =   await Product.findOneAndUpdate({ _id: req.params._id }, {
+                            title: req.body.title,
+                            price: req.body.price,
+                            description: req.body.description,
+                            imageUrl: req.file.filename,
+                            isActive: true,
+                            size: {
+                                small: null,
+                                medium: req.body.haftSize * 1 || null,
+                                large: req.body.haftSize * 2 || null
+                            },
+
+                        })
+
+                 res.redirect('/admin/products')
+                    } catch (error) {
+                        res.json({ msg: error })
+                    }
+
+                }
+            } else {
+
+                try {
+                    let result = await Product.findOneAndUpdate({ _id: req.params._id }, {
+                        title: req.body.title,
+                        price: req.body.price,
+                        description: req.body.description,
+
+                        isActive: true,
+                        size: {
+                            small: null,
+                            medium: req.body.haftSize * 1 || null,
+                            large: req.body.haftSize * 2 || null
+                        },
+
+                    })
+
+
+                    res.redirect('/admin/products')
+
+                } catch (error) {
+                    res.json({ msg: error })
+
+
+                }
+
+            }
+
         }
-    } else {
-        try {
+    })
 
- 
-
-            let result = await Product.findOneAndUpdate({
-                _id: req.params._id
-            }, {
-                price: req.body.price,
-                description: req.body.description,
-                size: {
-                    small: null,
-                    medium: req.body.haftSize * 1 || null,
-                    large: req.body.haftSize * 2 || null
-                },
-              
-
-            })
-            res.json(result)
-        } catch (error) {
-            res.json({ msg: err })
-        }
-    }
 };
