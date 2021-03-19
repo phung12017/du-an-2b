@@ -56,10 +56,24 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
+            <li class="nav-item ">
+                <a class="nav-link" href="/admin/products">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Products</span></a>
+            </li>
+
+            <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/admin/api">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Api</span></a>
+            </li>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/orders">
+                    <i class="fas fa-fw fa-tachometer-alt"  ></i>
+                    <span>Orders</span></a>
             </li>
 
 
@@ -432,6 +446,47 @@
                                                 <a href="https://du-an-2b.herokuapp.com/api/loginUser" target="blank">https://du-an-2b.herokuapp.com/api/loginUser</a>
                                             </td>
                                         </tr>
+
+                                        <tr>
+                                            <td>POST</td>                   
+                                            <td>Tạo hóa đơn</td>
+                                            <td>
+                                                <a href="https://du-an-2b.herokuapp.com/api/order" target="blank">https://du-an-2b.herokuapp.com/api/order</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>GET</td>                   
+                                            <td>Lấy hóa đơn chi tiết</td>
+                                            <td>
+                                                <a href="https://du-an-2b.herokuapp.com/api/findOder?_uid=6050398fa88f2800040ead30" target="blank">https://du-an-2b.herokuapp.com/api/findOrder?_uid=</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>POST</td>                   
+                                            <td>Thêm SP vào giỏ hàng</td>
+                                            <td>
+                                                <a href="https://du-an-2b.herokuapp.com/api/cart" target="blank">https://du-an-2b.herokuapp.com/api/cart</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>POST</td>                   
+                                            <td>Sửa SP trong giỏ hàng</td>
+                                            <td>
+                                                <a href="https://du-an-2b.herokuapp.com/api/updateCart" target="blank">https://du-an-2b.herokuapp.com/api/updateCart</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>GET</td>                   
+                                            <td>Lấy giỏ hàng theo UID</td>
+                                            <td>
+                                                <a href="https://du-an-2b.herokuapp.com/api/findCart?_uid=6050398fa88f2800040ead30" target="blank">https://du-an-2b.herokuapp.com/api/findCart?_uid=</a>
+                                            </td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>

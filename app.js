@@ -1,8 +1,9 @@
 //import modules
 const express = require('express');
 const app = express();
-const routes  = require('./routes/routes')
-const api  = require('./routes/api')
+const routes  = require('./routes/routes');
+const api  = require('./routes/api');
+const PORT = process.env.PORT || 3000;
 
 //app use
 app.use(routes)
@@ -20,6 +21,6 @@ const connectDB = require("./config/mongoose");
 connectDB();
 
 //open server at port 3000:
-app.listen(process.env.PORT || 3000, () => {
-	console.log('Server is listening on port 3000');
+app.listen(PORT, () => {
+	console.log(`Server is listening on port ${PORT}`);
 });
