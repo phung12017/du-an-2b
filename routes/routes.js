@@ -102,6 +102,8 @@ router.post('/admin/product/edit/:_id',ProductController.update)
 router.get('/admin/api', (req, res) => {
 	res.render('./admin/api')
 })
+//order -> getAll
+router.get('/admin/orders',OrderController.getAll)
 
 
 module.exports = router;

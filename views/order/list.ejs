@@ -49,7 +49,7 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="/admin/menu">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Menu</span></a>
@@ -70,9 +70,9 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/orders">
-                    <i class="fas fa-fw fa-tachometer-alt"  ></i>
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Orders</span></a>
             </li>
 
@@ -350,8 +350,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Phụng Trần</span>
+                                <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -395,10 +395,7 @@
                                 <div class="dropdown no-arrow">
                                     <!-- Button trigger modal -->
 
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModal">
-                                        Add new
-                                    </button>
+
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -467,28 +464,37 @@
                                                 <td><%-e._uid.name-%></td>
                                                 <th><%-e.products.length-%></th>
                                                 <th><%- moment(e.createAt).locale('vi').format('hh:mm - L') -%></th>
-                                                <td class="text-gray-000"><%-e.status-%></td>
+                                                <% if (e.status === 0) { %>
+                                                <th>
+                                                    Processing
+                                                </th>
+                                                <% }  else if(e.status===1){%>
+                                                <th>
+                                                    Delivery
+                                                </th>
+
+                                                <%}else if(e.status===2){%>
+
+                                                    <th>
+                                                        Success
+                                                    </th>
+                                                    <%} else if(e.status===3){%>
+<th>Cancel</th>
+                                                        <%}%>
+                                                    
                                                 <td>
 
-                                                    <% if (e.isActive === true) { %>
-                                                    <a class="btn btn-warning" href="/admin/menu/disable/<%-e._id-%>"
-                                                        onclick="return confirm('Are you sure you want to Disable this item?');">Disable</a>
 
-                                                    <% } else {%>
-                                                    <a class="btn btn-primary" href="/admin/menu/enable/<%-e._id-%>"
-                                                        onclick="return confirm('Are you sure you want to Enable this item?');">Enable</a>
-                                                    <%}%>
-                                                                                      
-                                                <!-- Button trigger modal -->
-                                                <a class="btn btn-primary" href="/admin/menu/edit/<%-e._id-%>">
-                                                    Edit
+                                                    <!-- Button trigger modal -->
+                                                    <a class="btn btn-primary" href="/admin/menu/edit/<%-e._id-%>">
+                                                Edit
                                                 </a>
 
                                                 <a class="btn btn-success" href="/admin/menu/details/<%- e._id -%>">
                                                     View
                                                 </a>
                                                 <a class="btn btn-danger" href="/admin/menu/remove/<%-e._id-%>"
-                                                        onclick="return confirm('Are you sure you want to Remove this item?');">Remove</a>
+                                                    onclick="return confirm('Are you sure you want to Remove this item?');">Remove</a>
                                                 </td>
                                             </tr>
                                             <% }); %>
