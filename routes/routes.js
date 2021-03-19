@@ -9,6 +9,7 @@ router.use(bodyParser.json());
 //import controllers
 const CategoryController = require('../controllers/category');
 const ProductController = require('../controllers/product');
+const OrderController = require('../controllers/order');
 
 //models
 const Product = require('../models/product')
@@ -102,5 +103,15 @@ router.get('/admin/api', (req, res) => {
 	res.render('./admin/api')
 })
 
+<<<<<<< HEAD
+=======
+//=== Order Controller ===//
+
+//order -> getAll
+router.get('/admin/orders',OrderController.getAll)
+
+//order -> add 
+// router.post('/admin/product/add',OrderController.createProduct)
+>>>>>>> f7de81cbca5b0f8cb018817aba2499f19df50383
 
 module.exports = router;

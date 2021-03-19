@@ -1,9 +1,9 @@
 const { reset } = require('nodemon');
 const moment = require('moment');
 const category = require('../models/category');
-const product = require('../models/product');
+const Product = require('../models/product');
 const user = require('../models/user');
-const order = require('../models/order');
+const Order = require('../models/order');
 const Cart = require('../models/cart');
 const { use } = require('../routes/api');
 const e = require('express');
@@ -18,7 +18,7 @@ exports.getAllCate = async (request, response) => {
 
 exports.getAllProd = async (request, response) => {
 	try {
-		let products = await product.find({ isActive: true });
+		let products = await Product.find({ isActive: true });
 		response.send({ products });
 	} catch (error) {
 	}
@@ -26,7 +26,7 @@ exports.getAllProd = async (request, response) => {
 
 exports.createProd = async (request, response) => {
 	try {
-		let products = await product.find({ isActive: true });
+		let products = await Product.find({ isActive: true });
 		response.send({ products });
 	} catch (error) {
 	}
@@ -35,7 +35,7 @@ exports.createProd = async (request, response) => {
 exports.getAllProdByCate = async (request, response) => {
 	const _idCategory = request.params._idCategory
 	try {
-		let products = await product.find({ isActive: true, _idCategory: _idCategory });
+		let products = await Product.find({ isActive: true, _idCategory: _idCategory });
 		response.send({ products });
 	} catch (error) {
 
@@ -45,7 +45,7 @@ exports.getAllProdByCate = async (request, response) => {
 exports.getProdById = async (request, response) => {
 	const _id = request.params._id
 	try {
-		let prod = await product.findOne({ isActive: true, _id: _id });
+		let prod = await Product.findOne({ isActive: true, _id: _id });
 		response.send(prod);
 	} catch (error) {
 		response.send({ msg: error });
@@ -102,48 +102,28 @@ exports.authUser = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
 	if (!req.body._uid
-		|| !req.body.status
 		|| !req.body.products) {
 		res.send({ msg: 'Vui lòng không để trống.' })
 	} else {
 		try {
-			const { _uid, status, products } = req.body
-			if (products) {
-				let arr;
-				if (Array.isArray(products)) {
-					arr = products.map((e, i) => {
-						const item = {
-							_idProduct: e
-						}
-						return item
-					})
-				} else {
-					arr = [{
-						_idProduct: products
-					}]
+			if (!(Array.isArray(req.body.products) && req.body.products.length)) {
+				res.send({ msg: 'Vui lòng nhập mảng.' })
+			}else {
+				const items = {
+					_uid: req.body._uid,
+					status: 0,
+					createAt: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
+					updateAt: null,
 				}
-				if (arr.length >= 1) {
-					let newOder = new order({
-						_uid: _uid,
-						products: arr,
-						createAt: moment().format('YYYY-MM-DD HH:mm:ss'),
-						updateAt: null,
-						status: status,
-					})
-					await newOder.save(function (err, Order) {
-						if (err) {
-							res.send({
-								msg: err
-							})
-							res.end()
-						} else {
-							res.json({
-								items: Order
-							})
-							res.end()
-						}
-					})
-				}
+				items.products = req.body.products.map(item => {
+					return {
+						_idProduct: item._idProduct,
+						quality: item.quality,
+					};
+				});
+					const order = new Order(items);
+					order.save().then(res.json({ items }));
+					res.end();
 			}
 		} catch (err) { }
 	}
@@ -151,10 +131,10 @@ exports.createOrder = async (req, res) => {
 
 exports.findOder = async (req, res) => {
 	const { _uid } = req.query
-	if( !_uid ){
-		res.send({msg: 'Vui lòng không để trống.'})
-	}else{
-		await order.findOne({ '_uid': _uid }).populate('products._idProduct').exec(function (err, data) {
+	if (!_uid) {
+		res.send({ msg: 'Vui lòng không để trống.' })
+	} else {
+		await Order.findOne({ '_uid': _uid }).populate('_uid').populate('products._idProduct').exec(function (err, data) {
 			if (err) {
 				res.send({
 					message: err
@@ -162,7 +142,7 @@ exports.findOder = async (req, res) => {
 				res.end()
 			} else {
 				res.json({
-					order: data
+					Order: data
 				})
 				res.end()
 			}
@@ -234,7 +214,7 @@ exports.updateCart = function (req, res) {
 			.then(cart => {
 				if (!cart && quality <= 0) {
 					throw new Error('Invalid request');
-				} else{
+				} else {
 					const indexFound = cart.products.findIndex(item => {
 						return item._idProduct == _idProduct;
 					});
@@ -260,9 +240,9 @@ exports.updateCart = function (req, res) {
 
 exports.findCart = async (req, res) => {
 	const { _uid } = req.query;
-	if( !_uid ){
-		res.send({msg: 'Vui lòng không để trống.'})
-	}else{
+	if (!_uid) {
+		res.send({ msg: 'Vui lòng không để trống.' })
+	} else {
 		await Cart.findOne({ '_uid': _uid }).populate('products._idProduct').exec(function (err, data) {
 			if (err) {
 				res.send({
@@ -278,7 +258,6 @@ exports.findCart = async (req, res) => {
 		})
 	}
 }
-
 
 exports.loginAdmin = async (req, res) => {
 	console.log(req.body);
