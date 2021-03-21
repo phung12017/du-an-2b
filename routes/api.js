@@ -19,6 +19,8 @@ router.post('/api/loginUser',API.addUser);
 router.post('/api/order',API.createOrder)
 router.get('/api/findOder',API.findOder)
 router.post('/api/cart',API.addCart);
-router.post('/api/updateCart',API.updateCart);
+router.post('/api/removeCart/:_uid',API.removeCart);
+router.post('/api/removeProductbyCart',API.removeProductbyCart);
 router.get('/api/findCart',API.findCart);
+router.get('/api/banner',API.getBanner);
 module.exports = router;

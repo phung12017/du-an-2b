@@ -5,6 +5,7 @@ const Product = require('../models/product');
 const user = require('../models/user');
 const Order = require('../models/order');
 const Cart = require('../models/cart');
+const Banner = require('../models/banner');
 const { use } = require('../routes/api');
 const e = require('express');
 
@@ -83,7 +84,7 @@ exports.addUser = async (req, res) => {
 			console.log(err)
 		}
 	}
-}
+};
 
 exports.authUser = async (req, res) => {
 	let phone = '+84' + req.params.phone;
@@ -98,7 +99,7 @@ exports.authUser = async (req, res) => {
 	} catch (err) {
 		res.send({ msg: err });
 	}
-}
+};
 
 exports.createOrder = async (req, res) => {
 	if (!req.body._uid
@@ -108,7 +109,7 @@ exports.createOrder = async (req, res) => {
 		try {
 			if (!(Array.isArray(req.body.products) && req.body.products.length)) {
 				res.send({ msg: 'Vui lòng nhập mảng.' })
-			}else {
+			} else {
 				const items = {
 					_uid: req.body._uid,
 					status: 0,
@@ -121,13 +122,13 @@ exports.createOrder = async (req, res) => {
 						quality: item.quality,
 					};
 				});
-					const order = new Order(items);
-					order.save().then(res.json({ items }));
-					res.end();
+				const order = new Order(items);
+				order.save().then(res.json({ items }));
+				res.end();
 			}
 		} catch (err) { }
 	}
-}
+};
 
 exports.findOder = async (req, res) => {
 	const { _uid } = req.query
@@ -148,7 +149,7 @@ exports.findOder = async (req, res) => {
 			}
 		})
 	}
-}
+};
 
 exports.addCart = function (req, res) {
 	const { _uid, _idProduct } = req.body;
@@ -201,40 +202,34 @@ exports.addCart = function (req, res) {
 	}
 };
 
-exports.updateCart = function (req, res) {
-	const { _uid, _idProduct } = req.body;
-	const quality = Number.parseInt(req.body.quality);
-	if (!req.body._uid
-		|| !req.body.quality
-		|| !req.body._idProduct) {
+exports.removeCart = function (req, res) {
+	const _uid = req.params._uid
+	if (!_uid) {
 		res.send({ msg: 'Vui lòng không để trống.' })
 	} else {
-		Cart.findOne({ _uid: _uid })
-			.exec()
-			.then(cart => {
-				if (!cart && quality <= 0) {
-					throw new Error('Invalid request');
-				} else {
-					const indexFound = cart.products.findIndex(item => {
-						return item._idProduct == _idProduct;
-					});
-					if (indexFound !== -1) {
-						let updatedQty = cart.products[indexFound].quality - quality;
-						if (updatedQty <= 0) {
-							cart.products.splice(indexFound, 1);
-						} else {
-							cart.products[indexFound].quality = updatedQty;
-						}
-						return cart.save();
-					} else {
-						throw new Error('Invalid request');
-					}
-				}
-			})
-			.then(updatedCart => res.json(updatedCart))
-			.catch(err => {
+		Cart.findOneAndRemove({ _uid: _uid }, { "products": [] }, function (err) {
+			if (err) {
+				res.send({ msg: 'Không còn gì để xóa'})
+				res.end()
+			} else{
+				res.send({ msg: 'Đã xóa tất cả sản phẩm' })
+				res.end()
+			}		
+		})
+	}
+};
+
+exports.removeProductbyCart = function (req, res) {
+	const {_uid,_idProduct} = req.body;
+	if( !_uid || !_idProduct){
+		res.send({msg: 'Kh bỏ trống'})
+	}else{
+		Cart.update({_uid},{$pull: {"products": {_idProduct} }},function(err){
+			if(err){
 				console.log(err)
-			});
+			}
+			res.end();
+		})
 	}
 };
 
@@ -257,8 +252,18 @@ exports.findCart = async (req, res) => {
 			}
 		})
 	}
-}
+};
+
+exports.getBanner = async (req, res) => {
+	await Banner.find({ isActive: true }, function (err, data) {
+		if (err) {
+			res.send(err)
+		} else {
+			res, send(data)
+		}
+	})
+};
 
 exports.loginAdmin = async (req, res) => {
 	console.log(req.body);
-}
+};
