@@ -131,25 +131,34 @@ exports.createOrder = async (req, res) => {
 };
 
 exports.findOder = async (req, res) => {
-	const { _uid } = req.query
-	if (!_uid) {
+	const { _id } = req.params
+	if (!_id) {
 		res.send({ msg: 'Vui lòng không để trống.' })
 	} else {
-		await Order.findOne({ '_uid': _uid }).populate('_uid').populate('products._idProduct').exec(function (err, data) {
+		await Order.find({_id}).populate('_uid').populate('products._idProduct').exec(function (err, data) {
 			if (err) {
-				res.send({
-					message: err
-				})
-				res.end()
-			} else {
-				res.json({
-					Order: data
-				})
-				res.end()
+				res.send(err);
+				res.end();
+			}else{
+				res.send({Order: data})
+				res.end();
 			}
 		})
 	}
 };
+
+exports.findOrderbyUser = async (req, res) => {
+	const { _uid } = req.params
+	await Order.find({_uid},function(err,data){
+		if (err) {
+			console.log(err);
+			res.end();
+		}else{
+			res.send({Order: data})
+			res.end();
+		}
+	})
+}
 
 exports.addCart = function (req, res) {
 	const { _uid, _idProduct } = req.body;
