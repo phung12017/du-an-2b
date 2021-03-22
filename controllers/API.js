@@ -255,11 +255,16 @@ exports.findCart = async (req, res) => {
 };
 
 exports.getBanner = async (req, res) => {
-	await Banner.find({ isActive: true }, function (err, data) {
+	await Banner.findOne({_id:"605609f1bbc8be49742bc63b"}, function (err, data) {
 		if (err) {
 			res.send(err)
+			res.end()
 		} else {
-			res, send(data)
+			var abc = data.items.filter(function(e){
+				return (e.isActive == true)
+			})
+			res.send(abc)
+			res.end()
 		}
 	})
 };
