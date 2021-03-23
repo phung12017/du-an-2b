@@ -72,7 +72,7 @@ exports.removeBanner = async (req, res) => {
 	if( !_id ){
 		res.send({msg: 'Kh bỏ trống'})
 	}else{
-		await Banner.updateOne({_id: '605609f1bbc8be49742bc63b'},{$pull: {"items": {_id} }},function(err){
+		await Banner.updateOne({_id: '60598839cacc200004977bca'},{$pull: {"items": {_id} }},function(err){
 			if(err){
 				console.log(err)
 			}

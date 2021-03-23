@@ -264,7 +264,7 @@ exports.findCart = async (req, res) => {
 };
 
 exports.getBanner = async (req, res) => {
-	await Banner.findOne({_id:"605609f1bbc8be49742bc63b"}, function (err, data) {
+	await Banner.findOne({_id:"60598839cacc200004977bca"}, function (err, data) {
 		if (err) {
 			res.send(err)
 			res.end()
