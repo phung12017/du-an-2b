@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 const childSchema = new Schema({
     imageUrl:{
-        type: String,
-        require: true,
+        type:String,trim:true
     },
     isActive: {
         type: Boolean,
