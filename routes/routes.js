@@ -111,13 +111,18 @@ router.get('/admin/api', (req, res) => {
 //order -> getAll
 router.get('/admin/orders',OrderController.getAll)
 
+//=== Banner Controller ===//
+
 //banner -> add
 router.post('/admin/banner/add',BannerController.addBanner)
 
-//menu -> enable menu item
+//banner -> remove
+router.get('/admin/banner/remove/:_id',BannerController.removeBanner)
+
+//banner -> enable banner 
 router.get('/admin/banner/enable/:_id', BannerController.enableBanner)
 
-//banner -> disable menu item
+//banner -> disable banner 
 router.get('/admin/banner/disable/:_id', BannerController.disableBanner)
 
 

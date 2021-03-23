@@ -66,6 +66,22 @@ exports.addBanner = async (req, res) => {
 		}
 	})
 };
+
+exports.removeBanner = async (req, res) => {
+	const _id = req.params._id;
+	if( !_id ){
+		res.send({msg: 'Kh bỏ trống'})
+	}else{
+		await Banner.updateOne({_id: '605609f1bbc8be49742bc63b'},{$pull: {"items": {_id} }},function(err){
+			if(err){
+				console.log(err)
+			}
+			res.redirect('/admin/dashboard')
+			res.end();
+		})
+	}
+};
+
 exports.disableBanner = async (req, res) => {
 	const _id = req.params._id
 	await Banner.findOneAndUpdate({"items._id": _id},{$set: { "items.$.isActive": false }},function(err){
