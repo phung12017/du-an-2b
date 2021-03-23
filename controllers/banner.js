@@ -34,7 +34,7 @@ exports.addBanner = async (req, res) => {
 							});
 							if (indexFound !== 1) {
 								banner.items.push({
-									imageUrl: imageUrl,
+									imageUrl: req.file.filename,
 									isActive: true
 								});
 							} else {
@@ -47,7 +47,7 @@ exports.addBanner = async (req, res) => {
 							const bannerData = {
 							items: [
 								{
-									imageUrl: imageUrl,
+									imageUrl: req.file.filename,
 									isActive: true
 								}
 							]
