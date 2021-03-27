@@ -21,6 +21,7 @@ const orderSchema = new Schema({
         require: true
     },
     products: [childSchema],
+    delivery: { type: Number },
     createAt: { type: Date },
     updateAt: { type: Date },
     status: { type: Number },

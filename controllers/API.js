@@ -103,7 +103,8 @@ exports.authUser = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
 	if (!req.body._uid
-		|| !req.body.products) {
+		|| !req.body.products
+		|| !req.body.delivery) {
 		res.send({ msg: 'Vui lòng không để trống.' })
 	} else {
 		try {
@@ -115,6 +116,7 @@ exports.createOrder = async (req, res) => {
 					status: 0,
 					createAt: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
 					updateAt: null,
+					delivery: req.body.delivery,
 				}
 				items.products = req.body.products.map(item => {
 					return {
