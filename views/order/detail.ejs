@@ -390,167 +390,124 @@
                     <div class="container-fluid">
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Orders: <%-Order.length-%>
-                                </h6>
-                                <div class="dropdown no-arrow">
-                                    <!-- Button trigger modal -->
+                            <% Order.filter(function(e){%>
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="margin-bottom: 1%">
+                                    <h6 class="m-0 font-weight-bold text-primary right">Order ID: <%-e._id-%>
+                                    </h6>
+                                    <h6 class="m-0 font-weight-bold text-primary left">Time: <%- moment(e.createAt).locale('vi').format('hh:mm - L') -%>
+                                    </h6>
+                                </div>
 
-
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-gray-900 font-weight-bold"
-                                                        id="exampleModalLabel">Add new menu</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="/admin/menu" method="POST"
-                                                        enctype="multipart/form-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"
-                                                                class="text-gray-900 font-weight-bold">Title</label>
-                                                            <input type="text" class="form-control"
-                                                                id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                                placeholder="Enter title" name="title" required>
-
+                                <form class="row" style="padding: 1%">
+                                    <!-- Earnings (Monthly) Card Example -->
+                                    <div class="col-xl-6 col-md-12 mb-4">
+                                        <div class="card   shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label class="text-gray-900 font-weight-bold">
+                                                        Thông tin người đặt</label>
+                                                    <div class="row mb-8">
+                                                        <div class="col" style="margin-bottom: 2%;">
+                                                            <input type="text" class="form-control" disabled placeholder="Địa chỉ: <%- e._uid.address -%>"> 
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlFile1"
-                                                                class="text-gray-900 font-weight-bold">Image </label>
-                                                            <input type="file" class="form-control-file" id="myFile"
-                                                                name="file" required>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input type="text" class="form-control" disabled placeholder="Tên: <%- e._uid.name -%>">
                                                         </div>
-
-                                                        <button type="submit" class="btn btn-primary">Save
-                                                            changes</button>
-
-                                                    </form>
+                                                        <div class="col">
+                                                            <input type="text" class="form-control" disabled placeholder="SDT: <%- e._uid.phone -%>">
+                                                        </div>
+                                                    </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xl-6 col-md-12 mb-4">
+                                        <div class="card   shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label class="text-gray-900 font-weight-bold">
+                                                        Ghi chú</label>
+                                                    <div class="row mb-12">
+                                                        <% if(e.delivery === 0){ %>
+                                                        <div class="col h-100" style="margin-bottom: 2%;">
+                                                            <input type="text" class="form-control" disabled
+                                                                placeholder="Giao hàng tận nơi">
+                                                        </div>
+                                                        <% }else{ %>
+                                                            <div class="col h-100" style="margin-bottom: 2%;">
+                                                                <input type="text" class="form-control" disabled
+                                                                    placeholder="Nhận hàng tại quán">
+                                                            </div>
+                                                        <% } %> 
+                                                    </div>
+                                                    <div class="row mb-12">
+                                                        <% if(e.status === 0){ %>
+                                                            <div class="col h-100" style="margin-bottom: 2%;">
+                                                                <input type="text" class="form-control" disabled
+                                                                    placeholder="Trạng thái: Chờ duyệt">
+                                                            </div>
+                                                        <% }else if(e.status === 1){ %>
+                                                            <div class="col h-100" style="margin-bottom: 2%;">
+                                                                <input type="text" class="form-control" disabled
+                                                                    placeholder="Trạng thái: Đang giao">
+                                                            </div>
+                                                        <% }else{ %>
+                                                            <div class="col h-100" style="margin-bottom: 2%;">
+                                                                <input type="text" class="form-control" disabled
+                                                                    placeholder="Trạng thái: Hoàn thành">
+                                                            </div>
+                                                        <% } %> 
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-md-12 mb-4">
+                                        <div class="card   shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <label class="text-gray-900 font-weight-bold">
+                                                    Sản phẩm</label>
+                                                <div class="table-responsive" style="overflow-x: hidden;">
+                                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Sản phẩm</th>
+                                                                <th>Số lượng</th>
+                                                                <th>Giá</th>
+                                                                <th>Thành tiền</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% e.products.map(function(j,i){%>
+                                                            <tr>
+                                                                <td> <%- i+1 -%> </td>
+                                                                <td> <%- j._idProduct.title -%> </td>
+                                                                <td> <%- j.quality -%> </td>
+                                                                <td> <%- j._idProduct.price -%></td>
+                                                                <td class="spanexpense"> <%- (j._idProduct.price * j.quality) -%></td>
+                                                            </tr>
+                                                        <% }); %>
+                                                        <tr>
+                                                            <td style="visibility:hidden"></td>
+                                                            <td style="visibility:hidden"></td>
+                                                            <td style="visibility:hidden"></td>
+                                                            <td> <strong>Tổng</strong> </td>
+                                                            <td id="sumExpenses" style="font-weight: bold;"> </td>
+                                                        </tr>
 
-                                </div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="table-responsive" style="overflow-x: hidden;">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Products</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <% Order.forEach(function(e){ %>
-                                                <tr>
-                                                    <td>
-                                                        <%-e._id-%>
-                                                    </td>
-                                                    <td>
-                                                        <%-e._uid.name-%>
-                                                    </td>
-                                                    <th>
-                                                        <%-e.products.length-%>
-                                                    </th>
-                                                    <th>
-                                                        <%- moment(e.createAt).locale('vi').format('hh:mm - L') -%>
-                                                    </th>
-                                                    <% if (e.status===0) { %>
-                                                        <th>
-                                                            Processing
-                                                        </th>
-                                                        <% } else if(e.status===1){%>
-                                                            <th>
-                                                                Delivery
-                                                            </th>
-
-                                                            <%}else if(e.status===2){%>
-
-                                                                <th>
-                                                                    Success
-                                                                </th>
-                                                                <%} else if(e.status===3){%>
-                                                                    <th>Cancel</th>
-                                                                    <%}%>
-
-                                                                        <td>
-                                                                            <!-- Button trigger modal -->
-                                                                            <a class="btn btn-primary"
-                                                                                data-toggle="modal"
-                                                                                data-target="#exampleModalOrder">
-                                                                                Edit
-                                                                            </a>
-                                                                            <!-- Modal -->
-                                                                            <div class="modal fade" id="exampleModalOrder"
-                                                                                tabindex="-1" role="dialog"
-                                                                                aria-labelledby="exampleModalLabel"
-                                                                                aria-hidden="true">
-                                                                                <div class="modal-dialog"
-                                                                                    role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title text-gray-900 font-weight-bold"
-                                                                                                id="exampleModalLabel">
-                                                                                                Edit status Order</h5>
-                                                                                            <button type="button"
-                                                                                                class="close"
-                                                                                                data-dismiss="modal"
-                                                                                                aria-label="Close">
-                                                                                                <span
-                                                                                                    aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <form
-                                                                                                action="/admin/order/edit/<%-e._id-%>"
-                                                                                                method="POST"
-                                                                                                enctype="multipart/form-data">
-                                                                                                <div class="form-group">
-                                                                                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                                                                                        <option selected value="<% e.status %>"> Chose status </option>
-                                                                                                        <option value="<% e.status %>">Processing</option>
-                                                                                                        <option value="<% e.status %>">Delivery</option>
-                                                                                                        <option value="<% e.status %>">Success</option>
-                                                                                                        <option value="<% e.status %>">Cancel</option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                                                                <button type="submit"
-                                                                                                    class="btn btn-primary">Save
-                                                                                                    changes</button>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/details/<%- e._id -%>">
-                                                                                View
-                                                                            </a>
-                                                                        </td>
-                                                </tr>
-                                                <% }); %>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                         </div>
+                        <% }); %>
 
                     </div>
 
@@ -607,6 +564,21 @@
         </div>
     </div>
 
+    <script> 
+    var sumExpenses = 0;
+        var tdBudget = document.getElementById('dataTable').getElementsByTagName('td');
+
+        for (var i = 0; i < tdBudget.length; i++) {
+
+            if (tdBudget[i].className == "spanexpense") {
+                sumExpenses += isNaN(tdBudget[i].innerHTML) ? 0 : parseInt(tdBudget[i].innerHTML);
+            }
+        }
+
+        document.getElementById('sumExpenses').innerHTML = sumExpenses;
+
+    </script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -625,11 +597,6 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/js/demo/datatables-demo.js"></script>
-
-
 
 </body>
 

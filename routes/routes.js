@@ -111,6 +111,13 @@ router.get('/admin/api', (req, res) => {
 //order -> getAll
 router.get('/admin/orders',OrderController.getAll)
 
+//order -> get order
+router.get('/admin/order/details/:_id', OrderController.getOrderDetails)
+
+//order -> Edit
+router.get('/admin/order/edit/:_id',OrderController.edit)
+router.post('/admin/order/edit/:_id',OrderController.update)
+
 //=== Banner Controller ===//
 
 //banner -> add
