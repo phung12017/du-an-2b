@@ -114,9 +114,9 @@ router.get('/admin/orders',OrderController.getAll)
 //order -> get order
 router.get('/admin/order/details/:_id', OrderController.getOrderDetails)
 
-//order -> Edit
-router.get('/admin/order/edit/:_id',OrderController.edit)
-router.post('/admin/order/edit/:_id',OrderController.update)
+//order -> Update
+router.get('/admin/order/hoanthanh/:_id',OrderController.done)
+router.get('/admin/order/giaohang/:_id',OrderController.update)
 
 //=== Banner Controller ===//
 

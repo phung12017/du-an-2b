@@ -304,3 +304,29 @@ exports.getBanner = async (req, res) => {
 exports.loginAdmin = async (req, res) => {
 	console.log(req.body);
 };
+
+exports.bestSeller = async (req, res) => {
+	// await Order.find({status: 2},function(err,data){
+	// 	if(err){
+	// 		res.send(err);
+	// 		res.end();
+	// 	}else{
+	// 		data.filter(function(e){
+	// 			console.log(e)
+	// 		})
+	// 		res.end();
+	// 	}
+	// }).sort( { _idProduct: 1 })
+	await Order.aggregate([
+		{ $match: {status: 2 }},
+		{ $group: { 
+				_id: { _idProduct: "$products._idProduct"}, 
+				uniqueIds: {$addToSet: "$_id"}, 
+				count: {$sum: 1 }
+		}},
+		{ $match: {count: {"$gt": 1}}},
+		{ $sort: {count: -1}}
+	],function(err,data){
+		res.send(data)
+	})
+};

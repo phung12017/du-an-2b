@@ -32,22 +32,19 @@ exports.getOrderDetails = async (req,res) => {
 	}
 }
 
-exports.edit = async (req,res) => {
-    await Order.findOne({_id: req.params._id},function(err,data){
-		if(err){
-			res.json(err)
-			res.end()
-		}else{
-            res.render('./order/list', {Order: data });
-			res.end()
-		}
-	})
+exports.done = async (req,res) => {
+    try{
+        await Order.findOneAndUpdate({_id: req.params._id},{
+            status: 2
+        })
+        res.redirect('/admin/orders')
+    }catch(err){}
 }
 
 exports.update = async (req,res) => {
     try{
         await Order.findOneAndUpdate({_id: req.params._id},{
-            status: req.body.status
+            status: 1
         })
         res.redirect('/admin/orders')
     }catch(err){}
