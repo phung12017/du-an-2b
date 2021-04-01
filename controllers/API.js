@@ -1,4 +1,3 @@
-const { reset } = require('nodemon');
 const moment = require('moment');
 const category = require('../models/category');
 const Product = require('../models/product');
@@ -6,8 +5,6 @@ const user = require('../models/user');
 const Order = require('../models/order');
 const Cart = require('../models/cart');
 const Banner = require('../models/banner');
-const { use } = require('../routes/api');
-const e = require('express');
 
 exports.getAllCate = async (request, response) => {
 	try {
@@ -85,6 +82,30 @@ exports.addUser = async (req, res) => {
 		}
 	}
 };
+
+exports.updateUser = async (req,res) => {
+	let phone = '+84' + req.params.phone;
+	if(!phone || !req.body.name || !req.body.address){
+		res.send({msg: "Vui lòng không bỏ trống"})
+	}else{
+		try{
+			await user.findOneAndUpdate({ phone }, {
+				name: req.body.name,
+				address: req.body.address,
+			},function(err,data){
+				if ((err)) {
+					res.send({msg: err});
+					res.end();
+				}else{
+					res.send({msg: `Update user: ${phone}`})
+					res.end();
+				}
+			})
+		}catch(err){
+			res.send({ msg: err });
+		}
+	}
+}
 
 exports.authUser = async (req, res) => {
 	let phone = '+84' + req.params.phone;

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const bodyParser = require('body-parser');
 
 
@@ -16,6 +15,7 @@ router.get('/api/product/id/:_id', API.getProdById);
 router.get('/api/authUser/:phone',API.authUser);
 router.post('/api/loginAdmin', API.loginAdmin);
 router.post('/api/loginUser',API.addUser);
+router.post('/api/updateUser/:phone',API.updateUser);
 router.post('/api/order',API.createOrder);
 router.get('/api/findOder/id/:_id',API.findOder);
 router.get('/api/findOrderbyUser/id/:_uid',API.findOrderbyUser);
