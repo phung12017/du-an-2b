@@ -44,7 +44,7 @@ router.get('/', (req, res) => {
 	res.render('./auth/login')
 });
 
- 
+
 
 //dashboard
 router.get('/admin/dashboard',async (req,res)=>{
@@ -53,7 +53,22 @@ router.get('/admin/dashboard',async (req,res)=>{
 	let productCount = await Product.count()
 	let userCount = await User.count()
 	let orderCount = await Order.count()
-	let bestSeller = await Product.find({_idCategory:'605432bed8b32e0fe4770cc7'})
+	let bestSeller = await Order.aggregate([
+		{ $match: {status: 2 }},
+		{ $unwind: "$products" },
+		{ $group: { 
+			_id: "$products._idProduct",
+				count: { $sum: "$products.quality" },
+		}},
+		{ $sort: {count: -1}},
+		{ $limit : 5 },
+		{ $lookup: {
+			from: "products",
+			localField: "_id",
+			foreignField: "_id",
+			as: "products"
+		}}
+	])
 	let orderStatus = {
 		cancel: await Order.count({status:3}),
 		processing:await Order.count({status:0}),

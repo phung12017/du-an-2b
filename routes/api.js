@@ -18,6 +18,7 @@ router.post('/api/loginUser',API.addUser);
 router.post('/api/updateUser/:phone',API.updateUser);
 router.post('/api/order',API.createOrder);
 router.get('/api/findOder/id/:_id',API.findOder);
+router.post('/api/cancelOrder/id/:_id',API.cancelOrder);
 router.get('/api/findOrderbyUser/id/:_uid',API.findOrderbyUser);
 router.get('/api/bestSeller',API.bestSeller);
 router.post('/api/cart',API.addCart);

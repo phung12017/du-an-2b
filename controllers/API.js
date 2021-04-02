@@ -306,27 +306,48 @@ exports.loginAdmin = async (req, res) => {
 };
 
 exports.bestSeller = async (req, res) => {
-	// await Order.find({status: 2},function(err,data){
-	// 	if(err){
-	// 		res.send(err);
-	// 		res.end();
-	// 	}else{
-	// 		data.filter(function(e){
-	// 			console.log(e)
-	// 		})
-	// 		res.end();
-	// 	}
-	// }).sort( { _idProduct: 1 })
 	await Order.aggregate([
 		{ $match: {status: 2 }},
+		{ $unwind: "$products" },
 		{ $group: { 
-				_id: { _idProduct: "$products._idProduct"}, 
-				uniqueIds: {$addToSet: "$_id"}, 
-				count: {$sum: 1 }
+			_id: "$products._idProduct", 
+			count: { $sum: "$products.quality" },
 		}},
-		{ $match: {count: {"$gt": 1}}},
-		{ $sort: {count: -1}}
+		{ $sort: {count: -1}},
+		{ $limit : 5 },
+		{ $lookup: {
+			from: "products",
+			localField: "_id", // find từ local trong function
+			foreignField: "_id", // find trên collection mongoDB
+			as: "products"
+		}},
 	],function(err,data){
-		res.send(data)
+		if(err){
+			res.send(err);
+			res.end();
+		}else{
+			res.send(data);
+			res.end();
+		}
 	})
 };
+
+exports.cancelOrder = async (req, res) => {
+	let _id = req.params._id;
+	try{
+        await Order.findOneAndUpdate({_id},{
+            status: 3
+        },function(err){
+			if(err){
+				res.send(err)
+				res.end()
+			}else{
+				res.send({msg: `Hủy đơn hàng thành công: ${_id}`})
+				res.end();
+			}
+		});
+    }catch(err){
+		res.send(err);
+		res.end();
+	}
+}

@@ -313,18 +313,19 @@
                                             </thead>
 
                                             <tbody>
-                                                <% bestSeller.forEach(function(e,i){ %>
+                                                <% bestSeller.filter(function(e,i){ 
+                                                    e.products.forEach(function(f){ %>
                                                     <tr>
                                                         <td>
                                                             <%-i+1-%>
                                                         </td>
                                                         <td>
-                                                            <%-e.title-%>
+                                                            <%-f.title-%>
                                                         </td>
 
                                                     </tr>
-
                                                     <% }); %>
+                                                <% }); %>
                                             </tbody>
                                         </table>
                                     </div>
@@ -345,13 +346,13 @@
                             <div class="card shadow mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Banner</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Ảnh bìa</h6>
                                     <div class="dropdown no-arrow">
                                         <!-- Button trigger modal -->
 
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#exampleModal">
-                                            Add new
+                                            Thêm mới
                                         </button>
 
                                         <!-- Modal -->
@@ -361,7 +362,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title text-gray-900 font-weight-bold"
-                                                            id="exampleModalLabel">Add new banner</h5>
+                                                            id="exampleModalLabel">Thêm ảnh bìa mới</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
@@ -372,13 +373,13 @@
                                                             enctype="multipart/form-data">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlFile1"
-                                                                    class="text-gray-900 font-weight-bold">Image
+                                                                    class="text-gray-900 font-weight-bold">Hình ảnh
                                                                 </label>
                                                                 <input type="file" class="form-control-file" id="myFile"
                                                                     name="file" required>
                                                             </div>
-                                                            <button type="submit" class="btn btn-primary">Save
-                                                                changes</button>
+                                                            <button type="submit" class="btn btn-primary">Lưu
+                                                                thay đổi</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -392,9 +393,9 @@
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>Image</th>
-                                                    <th>Active</th>
-                                                    <th>Action</th>
+                                                    <th>Hình ảnh</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -408,7 +409,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="text-center">
-                                                                <%-e.isActive-%>
+                                                                <%- e.isActive===true?'Hiện':'Ẩn' -%>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -416,14 +417,14 @@
                                                                 <% if (e.isActive===true) { %>
                                                                     <a class="btn btn-warning"
                                                                         href="/admin/banner/disable/<%-e._id-%>"
-                                                                        onclick="return confirm('Are you sure you want to Disable this item?');">Disable</a>
+                                                                        onclick="return confirm('Are you sure you want to Disable this item?');">Ẩn</a>
                                                                     <% } else {%>
                                                                         <a class="btn btn-primary"
                                                                             href="/admin/banner/enable/<%-e._id-%>"
-                                                                            onclick="return confirm('Are you sure you want to Enable this item?');">Enable</a>
+                                                                            onclick="return confirm('Are you sure you want to Enable this item?');">Hiện</a>
                                                                         <%}%>
                                                                         <a class="btn btn-danger" href="/admin/banner/remove/<%-e._id-%>"
-                                                                            onclick="return confirm('Are you sure you want to Remove this item?');">Remove</a>
+                                                                            onclick="return confirm('Are you sure you want to Remove this item?');">Xóa</a>
                                                             </div>
                                                         </td>
                                                     </tr>
