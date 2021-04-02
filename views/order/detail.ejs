@@ -303,8 +303,8 @@
                                                                 <td> <%- i+1 -%> </td>
                                                                 <td> <%- j._idProduct.title -%> </td>
                                                                 <td> <%- j.quality -%> </td>
-                                                                <td> <%- j._idProduct.price -%></td>
-                                                                <td class="spanexpense"> <%- (j._idProduct.price * j.quality) -%></td>
+                                                                <td> <%- j._idProduct.price.toLocaleString('vi', {style : 'currency', currency : 'VND'}) -%></td>
+                                                                <td class="spanexpense"> <%- (j._idProduct.price * j.quality) -%> </td>
                                                             </tr>
                                                         <% }); %>
                                                         <tr>
@@ -312,7 +312,7 @@
                                                             <td style="visibility:hidden"></td>
                                                             <td style="visibility:hidden"></td>
                                                             <td> <strong>Tổng</strong> </td>
-                                                            <td id="sumExpenses" style="font-weight: bold;"> </td>
+                                                            <td id="sumExpenses" style="font-weight: bold;">  </td>
                                                         </tr>
 
                                                         </tbody>
@@ -391,7 +391,7 @@
             }
         }
 
-        document.getElementById('sumExpenses').innerHTML = sumExpenses;
+        document.getElementById('sumExpenses').innerHTML = sumExpenses.toLocaleString('vi', {style : 'currency', currency : 'VND'});
 
     </script>
 
