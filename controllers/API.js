@@ -326,7 +326,7 @@ exports.bestSeller = async (req, res) => {
 			res.send(err);
 			res.end();
 		}else{
-			res.send({seller: data});
+			res.send(data);
 			res.end();
 		}
 	})
