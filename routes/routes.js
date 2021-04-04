@@ -11,6 +11,7 @@ const CategoryController = require('../controllers/category');
 const ProductController = require('../controllers/product');
 const OrderController = require('../controllers/order');
 const BannerController = require('../controllers/banner');
+const DiscountController = require('../controllers/discount');
 
 //models
 const Product = require('../models/product')
@@ -18,6 +19,7 @@ const Category = require('../models/category')
 const User = require('../models/user')
 const Order = require('../models/order')
 const Banner = require('../models/banner')
+const Discount = require('../models/discount')
 
 // multer
 const multer = require('multer');
@@ -132,6 +134,23 @@ router.get('/admin/order/details/:_id', OrderController.getOrderDetails)
 //order -> Update
 router.get('/admin/order/hoanthanh/:_id',OrderController.done)
 router.get('/admin/order/giaohang/:_id',OrderController.update)
+
+//=== Discount Controller ===//
+
+//discount -> getAll
+router.get('/admin/discounts',DiscountController.getAll)
+
+//discount -> add
+router.post('/admin/discounts/add',DiscountController.createDiscount)
+
+//discount -> disable
+router.get('/admin/discounts/disable/:_id',DiscountController.disable)
+
+//discount -> enable
+router.get('/admin/discounts/enable/:_id',DiscountController.enable)
+
+//discount -> remove
+router.get('/admin/discounts/remove/:_id',DiscountController.remove)
 
 //=== Banner Controller ===//
 

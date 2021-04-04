@@ -50,7 +50,7 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/admin/orders">
                     <i class="fas fa-receipt"></i>
                     <span>Đơn hàng</span></a>
@@ -70,7 +70,7 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/discounts">
                     <i class="fas fa-percent"></i>
                     <span>Mã giảm giá</span></a>
@@ -154,62 +154,72 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-
                     <!-- Content Row -->
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Số lượng đơn hàng: <%-Order.length-%>
-                                </h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Số lượng mã giảm giá: <%- discounts.length -%></h6>
                                 <div class="dropdown no-arrow">
                                     <!-- Button trigger modal -->
-
-
+                                    <button type="button" class="btn xxx" data-toggle="modal"
+                                        data-target="#exampleModalDiscount">
+                                        Thêm mã giảm giá
+                                    </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="exampleModalDiscount" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title text-gray-900 font-weight-bold"
-                                                        id="exampleModalLabel">Add new menu</h5>
+                                                        id="exampleModalLabel">Tạo mã giảm giá</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="/admin/menu" method="POST"
-                                                        enctype="multipart/form-data">
+                                                    <form action="/admin/discounts/add" method="POST"
+                                                        enctype="form-data">
                                                         <div class="form-group">
-                                                            <label for="exampleInputEmail1"
-                                                                class="text-gray-900 font-weight-bold">Title</label>
-                                                            <input type="text" class="form-control"
-                                                                id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                                placeholder="Enter title" name="title" required>
-
+                                                            <label for="exampleInput1"
+                                                                class="text-gray-900 font-weight-bold">Mã giảm
+                                                                giá</label>
+                                                            <input type="text" style="text-transform:uppercase" class="form-control" id="exampleInput1"
+                                                                aria-describedby="emailHelp" required value=""
+                                                                name="title" >
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="exampleFormControlFile1"
-                                                                class="text-gray-900 font-weight-bold">Image </label>
-                                                            <input type="file" class="form-control-file" id="myFile"
-                                                                name="file" required>
+                                                            <label for="exampleInput2"
+                                                                class="text-gray-900 font-weight-bold">Khuyến
+                                                                mãi</label>
+                                                            <input type="number" class="form-control" id="exampleInput2"
+                                                                name="percent" min="10" max="90"
+                                                                required="Vui lòng nhập %">
                                                         </div>
-
-                                                        <button type="submit" class="btn btn-primary">Save
-                                                            changes</button>
-
+                                                        <div class="form-group">
+                                                            <label for="exampleInput3"
+                                                                class="text-gray-900 font-weight-bold">Ngày bắt
+                                                                đầu</label>
+                                                            <input type="date" class="form-control" id="exampleInput3"
+                                                                name="dateStart" required="Vui lòng chọn ngày bắt đầu">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInput4"
+                                                                class="text-gray-900 font-weight-bold">Ngày kết
+                                                                thúc</label>
+                                                            <input type="date" class="form-control" id="exampleInput4"
+                                                                name="dateEnd" required="Vui lòng chọn ngày kết thúc">
+                                                        </div>
+                                                        <button type="submit" class="btn xxx">Lưu</button>
                                                     </form>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="card-body">
@@ -218,77 +228,61 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Mã đơn hàng</th>
-
-                                                <th>Ngày tạo</th>
-                                                <th>Trạng thái</th>
-                                                <th>Hành động</th>
+                                                <th><div class="text-center">Mã</div></th>
+                                                <th><div class="text-center">Giá trị</div></th>
+                                                <th><div class="text-center">Ngày bắt đầu</div></th>
+                                                <th><div class="text-center">Ngày kết thúc</div></th>
+                                                <th><div class="text-center">Trạng thái</div></th>
+                                                <th><div class="text-center">Hành động</div></th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            <% Order.forEach(function(e){ %>
+
+                                            <% discounts.forEach(function(e){ %>
                                                 <tr>
                                                     <td>
-                                                        <%-e._id-%>
+                                                        <div class="text-center">
+                                                            <%-e.title-%>
+                                                        </div>
                                                     </td>
-
-
+                                                    <td>
+                                                        <div class="text-center">
+                                                            <%-e.percent-%>%
+                                                        </div>
+                                                    </td>
                                                     <th>
-                                                        <%- moment(e.createAt).locale('vi').format('hh:mm - L') -%>
+                                                        <div class="text-center">
+                                                            <%-moment(e.dateStart).locale('vi').format('L')-%>
+                                                        </div>
                                                     </th>
-
-
-                                                    <% if (e.status===0) { %>
-                                                        <th>
-                                                            Đang chờ xử lý
-                                                        </th>
-                                                        <% } else if(e.status===1){%>
-                                                            <th>
-                                                                Đang giao hàng
-                                                            </th>
-
-                                                            <%}else if(e.status===2){%>
-
-                                                                <th>
-                                                                    Thành công
-                                                                </th>
-                                                                <%} else if(e.status===3){%>
-                                                                    <th>Hủy đơn</th>
+                                                    <th>
+                                                        <div class="text-center">
+                                                            <%-moment(e.dateEnd).locale('vi').format('L')-%>
+                                                        </div>
+                                                    </th>
+                                                    <td class="text-gray-000">
+                                                        <div class="text-center">
+                                                            <%-e.isActive===true?'Hiện':'Ẩn' -%>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-center"> 
+                                                            <% if (e.isActive===true) { %>
+                                                                <a class="btn btn-warning"
+                                                                    href="/admin/discounts/disable/<%-e._id-%>"
+                                                                    onclick="return confirm('Bạn có chắc chắn là muốn ẩn khuyến mãi này không ?');">Ẩn</a>
+    
+                                                                <% } else {%>
+                                                                    <a class="btn btn-success"
+                                                                        href="/admin/discounts/enable/<%-e._id-%>">Hiện</a>
                                                                     <%}%>
-                                                                        
-                                                                        <td>
-                                                                            <% if (e.status===0) { %>
 
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/giaohang/<%- e._id -%>">
-                                                                                Giao hàng
-                                                                            </a>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/details/<%- e._id -%>">
-                                                                                Chi tiết
-                                                                            </a>
-
-                                                                            <%} else if(e.status===1) { %>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/hoanthanh/<%- e._id -%>">
-                                                                                Hoàn Thành
-                                                                            </a>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/details/<%- e._id -%>">
-                                                                                Chi tiết
-                                                                            </a>
-
-                                                                            <% }  else { %>
-                                                                                <a class="btn btn-success"
-                                                                                    href="/admin/order/details/<%- e._id -%>">
-                                                                                    Chi tiết
-                                                                                </a>
-                                                                            <% } %>
-                                                                        </td>
+                                                                        <a class="btn btn-danger"
+                                                                            href="/admin/discounts/remove/<%-e._id-%>"
+                                                                            onclick="return confirm('Khi xóa khuyến mãi này sẽ ảnh hưởng tới dữ liệu của bạn, bạn có chắc là muốn xóa khuyến mãi này không?');">Gỡ</a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <% }); %>
                                         </tbody>
@@ -296,14 +290,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Content Row -->
-
-
-
-
 
                 </div>
                 <!-- /.container-fluid -->

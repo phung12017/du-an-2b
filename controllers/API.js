@@ -350,4 +350,4 @@ exports.cancelOrder = async (req, res) => {
 		res.send(err);
 		res.end();
 	}
-}
+};
