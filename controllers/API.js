@@ -56,7 +56,8 @@ exports.addUser = async (req, res) => {
 	let newUser = new user({
 		phone: phone,
 		name: req.body.name,
-		address: req.body.address
+		address: req.body.address,
+		point: 0,
 	})
 	if ((req.body.phone
 		&& req.body.name
@@ -365,4 +366,4 @@ exports.getAllDiscount = async (req, res) => {
 			}
 		})
 	}catch(err){}
-}
+};
