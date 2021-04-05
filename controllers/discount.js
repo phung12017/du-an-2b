@@ -16,7 +16,8 @@ exports.getAll = async (req, res) => {
 exports.createDiscount = async (req, res) => {
     if (req.body) {
         const discount = new Discount({
-            title: req.body.title.toUpperCase(),
+            title: req.body.title,
+            code: req.body.code.toUpperCase(),
             isActive: true,
             percent: req.body.percent,
             dateStart: req.body.dateStart,

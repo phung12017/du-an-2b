@@ -5,6 +5,9 @@ const discountSchema = new Schema({
     title:{
         type:String,trim:true
     },
+    code:{
+        type:String,trim:true
+    },
     percent:{
         type:Number,trim:true
     },
