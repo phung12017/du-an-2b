@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Hexia Admin - Menu</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -45,39 +45,47 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item  ">
                 <a class="nav-link" href="/admin/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Bảng điều khiển</span></a>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Bảng điểu khiển</span></a>
             </li>
-   <!-- Nav Item - Dashboard -->
-   <li class="nav-item">
-    <a class="nav-link" href="/admin/orders">
-        <i class="fas fa-fw fa-tachometer-alt"  ></i>
-        <span>Đơn hàng</span></a>
-</li>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/orders">
+                    <i class="fas fa-receipt"></i>
+                    <span>Đơn hàng</span></a>
+            </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/admin/menu">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-book"></i>
                     <span>Danh mục</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
                 <a class="nav-link" href="/admin/products">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fab fa-product-hunt"></i>
                     <span>Sản phẩm</span></a>
             </li>
 
-         
-         
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/discounts">
+                    <i class="fas fa-percent"></i>
+                    <span>Mã giảm giá</span></a>
+            </li>
 
 
-        
- 
 
-     
 
-      
+
+
+
+
+
+
+
 
 
         </ul>
@@ -97,10 +105,10 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-        
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
- 
+
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -146,13 +154,14 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Tổng số danh mục: <%-categories.length-%> </h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Tổng số danh mục: <%-categories.length-%>
+                                </h6>
                                 <div class="dropdown no-arrow">
                                     <!-- Button trigger modal -->
 
                                     <button type="button" class="btn xxx" data-toggle="modal"
                                         data-target="#exampleModal">
-                                      Thêm danh mục mới
+                                        Thêm danh mục mới
                                     </button>
 
                                     <!-- Modal -->
@@ -173,10 +182,12 @@
                                                         enctype="multipart/form-data">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1"
-                                                                class="text-gray-900 font-weight-bold">Tên danh mục</label>
+                                                                class="text-gray-900 font-weight-bold">Tên danh
+                                                                mục</label>
                                                             <input type="text" class="form-control"
                                                                 id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                                placeholder="Nhập tên" name="title" required="Vui lòng nhập đầy đủ">
+                                                                placeholder="Nhập tên" name="title"
+                                                                required="Vui lòng nhập đầy đủ">
 
                                                         </div>
                                                         <div class="form-group">
@@ -215,38 +226,48 @@
                                         <tbody>
 
                                             <% categories.forEach(function(e){ %>
-                                            <tr>
-                                                <td>
-                                                    <div class="text-center">
-                                                        <img width="50"  class=" mx-auto d-block rounded" src="/uploads/<%-e.imageUrl-%>" class="rounded"
-                                                            alt="...">
-                                                    </div>
-                                                </td>
-                                                <td><%-e.title-%></td>
-                                                <th><%-e.products.length-%></th>
-                                                <td class="text-gray-000"><%-e.isActive===true?'Hiện':'Ẩn' -%></td>
-                                                <td>
+                                                <tr>
+                                                    <td>
+                                                        <div class="text-center">
+                                                            <img width="50" class=" mx-auto d-block rounded"
+                                                                src="/uploads/<%-e.imageUrl-%>" class="rounded"
+                                                                alt="...">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <%-e.title-%>
+                                                    </td>
+                                                    <th>
+                                                        <%-e.products.length-%>
+                                                    </th>
+                                                    <td class="text-gray-000">
+                                                        <%-e.isActive===true?'Hiện':'Ẩn' -%>
+                                                    </td>
+                                                    <td>
 
-                                                    <% if (e.isActive === true) { %>
-                                                    <a class="btn btn-warning" href="/admin/menu/disable/<%-e._id-%>"
-                                                        onclick="return confirm('Bạn có chắc chắn là muốn ẩn danh mục này không ?');">Ẩn</a>
+                                                        <% if (e.isActive===true) { %>
+                                                            <a class="btn btn-warning"
+                                                                href="/admin/menu/disable/<%-e._id-%>"
+                                                                onclick="return confirm('Bạn có chắc chắn là muốn ẩn danh mục này không ?');">Ẩn</a>
 
-                                                    <% } else {%>
-                                                    <a class="btn btn-success" href="/admin/menu/enable/<%-e._id-%>"
-                                                        >Hiện</a>
-                                                    <%}%>
-                                                                                      
-                                                <!-- Button trigger modal -->
-                                                <a class="btn btn-primary" href="/admin/menu/edit/<%-e._id-%>">
-                                                    Sửa
-                                                </a>
+                                                            <% } else {%>
+                                                                <a class="btn btn-success"
+                                                                    href="/admin/menu/enable/<%-e._id-%>">Hiện</a>
+                                                                <%}%>
 
-                                               
-                                                <a class="btn btn-danger" href="/admin/menu/remove/<%-e._id-%>"
-                                                        onclick="return confirm('Khi xóa danh mục này sẽ ảnh hưởng tới dữ liệu của bạn, bạn có chắc là muốn xóa danh mục này không?');">Gỡ</a>
-                                                </td>
-                                            </tr>
-                                            <% }); %>
+                                                                    <!-- Button trigger modal -->
+                                                                    <a class="btn btn-primary"
+                                                                        href="/admin/menu/edit/<%-e._id-%>">
+                                                                        Sửa
+                                                                    </a>
+
+
+                                                                    <a class="btn btn-danger"
+                                                                        href="/admin/menu/remove/<%-e._id-%>"
+                                                                        onclick="return confirm('Khi xóa danh mục này sẽ ảnh hưởng tới dữ liệu của bạn, bạn có chắc là muốn xóa danh mục này không?');">Gỡ</a>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
                                         </tbody>
                                     </table>
                                 </div>

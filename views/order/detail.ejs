@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Hexia Admin - Order</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -45,33 +45,37 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item  ">
                 <a class="nav-link" href="/admin/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Bảng điều khiển</span></a>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Bảng điểu khiển</span></a>
             </li>
-     <!-- Nav Item - Dashboard -->
-     <li class="nav-item active">
-        <a class="nav-link" href="/admin/orders">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Đơn hàng</span></a>
-    </li>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/orders">
+                    <i class="fas fa-receipt"></i>
+                    <span>Đơn hàng</span></a>
+            </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
                 <a class="nav-link" href="/admin/menu">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-book"></i>
                     <span>Danh mục</span></a>
             </li>
-  
-       
-
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
                 <a class="nav-link" href="/admin/products">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fab fa-product-hunt"></i>
                     <span>Sản phẩm</span></a>
             </li>
 
-      
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/discounts">
+                    <i class="fas fa-percent"></i>
+                    <span>Mã giảm giá</span></a>
+            </li>
+
 
 
         </ul>
@@ -91,12 +95,12 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                     
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                  
+
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
@@ -200,17 +204,19 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                   
+
                     <!-- Content Row -->
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <% Order.filter(function(e){%>
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="margin-bottom: 1%">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    style="margin-bottom: 1%">
                                     <h6 class="m-0 font-weight-bold text-primary right">Mã đơn hàng: <%-e._id-%>
                                     </h6>
-                                    <h6 class="m-0 font-weight-bold text-primary left">Ngày tạo: <%- moment(e.createAt).locale('vi').format('hh:mm - L') -%>
+                                    <h6 class="m-0 font-weight-bold text-primary left">Ngày tạo: <%-
+                                            moment(e.createAt).locale('vi').format('hh:mm - L') -%>
                                     </h6>
                                 </div>
 
@@ -224,15 +230,18 @@
                                                         Thông tin người đặt</label>
                                                     <div class="row mb-8">
                                                         <div class="col" style="margin-bottom: 2%;">
-                                                            <input type="text" class="form-control" disabled placeholder="Địa chỉ: <%- e._uid.address -%>"> 
+                                                            <input type="text" class="form-control" disabled
+                                                                placeholder="Địa chỉ: <%- e._uid.address -%>">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <input type="text" class="form-control" disabled placeholder="Tên: <%- e._uid.name -%>">
+                                                            <input type="text" class="form-control" disabled
+                                                                placeholder="Tên: <%- e._uid.name -%>">
                                                         </div>
                                                         <div class="col">
-                                                            <input type="text" class="form-control" disabled placeholder="SDT: <%- e._uid.phone -%>">
+                                                            <input type="text" class="form-control" disabled
+                                                                placeholder="SDT: <%- e._uid.phone -%>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -246,36 +255,36 @@
                                                     <label class="text-gray-900 font-weight-bold">
                                                         Ghi chú</label>
                                                     <div class="row mb-12">
-                                                        <% if(e.delivery === 0){ %>
-                                                        <div class="col h-100" style="margin-bottom: 2%;">
-                                                            <input type="text" class="form-control" disabled
-                                                                placeholder="Giao hàng tận nơi">
-                                                        </div>
-                                                        <% }else{ %>
+                                                        <% if(e.delivery===0){ %>
                                                             <div class="col h-100" style="margin-bottom: 2%;">
                                                                 <input type="text" class="form-control" disabled
-                                                                    placeholder="Nhận hàng tại quán">
+                                                                    placeholder="Giao hàng tận nơi">
                                                             </div>
-                                                        <% } %> 
+                                                            <% }else{ %>
+                                                                <div class="col h-100" style="margin-bottom: 2%;">
+                                                                    <input type="text" class="form-control" disabled
+                                                                        placeholder="Nhận hàng tại quán">
+                                                                </div>
+                                                                <% } %>
                                                     </div>
                                                     <div class="row mb-12">
-                                                        <% if(e.status === 0){ %>
+                                                        <% if(e.status===0){ %>
                                                             <div class="col h-100" style="margin-bottom: 2%;">
                                                                 <input type="text" class="form-control" disabled
                                                                     placeholder="Trạng thái: Chờ duyệt">
                                                             </div>
-                                                        <% }else if(e.status === 1){ %>
-                                                            <div class="col h-100" style="margin-bottom: 2%;">
-                                                                <input type="text" class="form-control" disabled
-                                                                    placeholder="Trạng thái: Đang giao">
-                                                            </div>
-                                                        <% }else{ %>
-                                                            <div class="col h-100" style="margin-bottom: 2%;">
-                                                                <input type="text" class="form-control" disabled
-                                                                    placeholder="Trạng thái: Hoàn thành">
-                                                            </div>
-                                                        <% } %> 
-                                                        
+                                                            <% }else if(e.status===1){ %>
+                                                                <div class="col h-100" style="margin-bottom: 2%;">
+                                                                    <input type="text" class="form-control" disabled
+                                                                        placeholder="Trạng thái: Đang giao">
+                                                                </div>
+                                                                <% }else{ %>
+                                                                    <div class="col h-100" style="margin-bottom: 2%;">
+                                                                        <input type="text" class="form-control" disabled
+                                                                            placeholder="Trạng thái: Hoàn thành">
+                                                                    </div>
+                                                                    <% } %>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -287,7 +296,8 @@
                                                 <label class="text-gray-900 font-weight-bold">
                                                     Sản phẩm</label>
                                                 <div class="table-responsive" style="overflow-x: hidden;">
-                                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                    <table class="table table-bordered" id="dataTable" width="100%"
+                                                        cellspacing="0">
                                                         <thead>
                                                             <tr>
                                                                 <th>#</th>
@@ -299,21 +309,34 @@
                                                         </thead>
                                                         <tbody>
                                                             <% e.products.map(function(j,i){%>
-                                                            <tr>
-                                                                <td> <%- i+1 -%> </td>
-                                                                <td> <%- j._idProduct.title -%> </td>
-                                                                <td> <%- j.quality -%> </td>
-                                                                <td> <%- j._idProduct.price.toLocaleString('vi', {style : 'currency', currency : 'VND'}) -%></td>
-                                                                <td class="spanexpense"> <%- (j._idProduct.price * j.quality) -%> </td>
-                                                            </tr>
-                                                        <% }); %>
-                                                        <tr>
-                                                            <td style="visibility:hidden"></td>
-                                                            <td style="visibility:hidden"></td>
-                                                            <td style="visibility:hidden"></td>
-                                                            <td> <strong>Tổng</strong> </td>
-                                                            <td id="sumExpenses" style="font-weight: bold;">  </td>
-                                                        </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <%- i+1 -%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%- j._idProduct.title -%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%- j.quality -%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%- j._idProduct.price.toLocaleString('vi',
+                                                                            {style : 'currency' , currency : 'VND' })
+                                                                            -%>
+                                                                    </td>
+                                                                    <td class="spanexpense">
+                                                                        <%- (j._idProduct.price * j.quality) -%>
+                                                                    </td>
+                                                                </tr>
+                                                                <% }); %>
+                                                                    <tr>
+                                                                        <td style="visibility:hidden"></td>
+                                                                        <td style="visibility:hidden"></td>
+                                                                        <td style="visibility:hidden"></td>
+                                                                        <td> <strong>Tổng</strong> </td>
+                                                                        <td id="sumExpenses" style="font-weight: bold;">
+                                                                        </td>
+                                                                    </tr>
 
                                                         </tbody>
                                                     </table>
@@ -380,8 +403,8 @@
         </div>
     </div>
 
-    <script> 
-    var sumExpenses = 0;
+    <script>
+        var sumExpenses = 0;
         var tdBudget = document.getElementById('dataTable').getElementsByTagName('td');
 
         for (var i = 0; i < tdBudget.length; i++) {
@@ -391,7 +414,7 @@
             }
         }
 
-        document.getElementById('sumExpenses').innerHTML = sumExpenses.toLocaleString('vi', {style : 'currency', currency : 'VND'});
+        document.getElementById('sumExpenses').innerHTML = sumExpenses.toLocaleString('vi', { style: 'currency', currency: 'VND' });
 
     </script>
 

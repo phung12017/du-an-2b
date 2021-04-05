@@ -5,6 +5,7 @@ const user = require('../models/user');
 const Order = require('../models/order');
 const Cart = require('../models/cart');
 const Banner = require('../models/banner');
+const Discount = require('../models/discount');
 
 exports.getAllCate = async (request, response) => {
 	try {
@@ -351,3 +352,17 @@ exports.cancelOrder = async (req, res) => {
 		res.end();
 	}
 };
+
+exports.getAllDiscount = async (req, res) => {
+	try{
+		await Discount.find({isActive: true},function(err,data){
+			if(err){
+				res.send(err);
+				res.end();
+			}else{
+				res.send({Discount: data})
+				res.end();
+			}
+		})
+	}catch(err){}
+}
