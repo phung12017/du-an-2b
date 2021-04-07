@@ -20,6 +20,7 @@ exports.createDiscount = async (req, res) => {
             code: req.body.code.toUpperCase(),
             isActive: true,
             percent: req.body.percent,
+            cost: req.body.cost,
             dateStart: req.body.dateStart,
             dateEnd: req.body.dateEnd,
         })

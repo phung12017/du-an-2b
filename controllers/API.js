@@ -58,6 +58,7 @@ exports.addUser = async (req, res) => {
 		name: req.body.name,
 		address: req.body.address,
 		point: 0,
+		voucher: [],
 	})
 	if ((req.body.phone
 		&& req.body.name
@@ -85,25 +86,25 @@ exports.addUser = async (req, res) => {
 	}
 };
 
-exports.updateUser = async (req,res) => {
+exports.updateUser = async (req, res) => {
 	let phone = '+84' + req.params.phone;
-	if(!phone || !req.body.name || !req.body.address){
-		res.send({msg: "Vui lòng không bỏ trống"})
-	}else{
-		try{
+	if (!phone || !req.body.name || !req.body.address) {
+		res.send({ msg: "Vui lòng không bỏ trống" })
+	} else {
+		try {
 			await user.findOneAndUpdate({ phone }, {
 				name: req.body.name,
 				address: req.body.address,
-			},function(err,data){
+			}, function (err, data) {
 				if ((err)) {
-					res.send({msg: err});
+					res.send({ msg: err });
 					res.end();
-				}else{
-					res.send({msg: `Update user: ${phone}`})
+				} else {
+					res.send({ msg: `Update user: ${phone}` })
 					res.end();
 				}
 			})
-		}catch(err){
+		} catch (err) {
 			res.send({ msg: err });
 		}
 	}
@@ -160,12 +161,12 @@ exports.findOder = async (req, res) => {
 	if (!_id) {
 		res.send({ msg: 'Vui lòng không để trống.' })
 	} else {
-		await Order.find({_id}).populate('_uid').populate('products._idProduct').exec(function (err, data) {
+		await Order.find({ _id }).populate('_uid').populate('products._idProduct').exec(function (err, data) {
 			if (err) {
 				res.send(err);
 				res.end();
-			}else{
-				res.send({Order: data})
+			} else {
+				res.send({ Order: data })
 				res.end();
 			}
 		})
@@ -174,12 +175,12 @@ exports.findOder = async (req, res) => {
 
 exports.findOrderbyUser = async (req, res) => {
 	const { _uid } = req.params
-	await Order.find({_uid},function(err,data){
+	await Order.find({ _uid }, function (err, data) {
 		if (err) {
 			console.log(err);
 			res.end();
-		}else{
-			res.send({Order: data})
+		} else {
+			res.send({ Order: data })
 			res.end();
 		}
 	})
@@ -243,23 +244,23 @@ exports.removeCart = function (req, res) {
 	} else {
 		Cart.findOneAndRemove({ _uid: _uid }, { "products": [] }, function (err) {
 			if (err) {
-				res.send({ msg: 'Không còn gì để xóa'})
+				res.send({ msg: 'Không còn gì để xóa' })
 				res.end()
-			} else{
+			} else {
 				res.send({ msg: 'Đã xóa tất cả sản phẩm' })
 				res.end()
-			}		
+			}
 		})
 	}
 };
 
 exports.removeProductbyCart = function (req, res) {
-	const {_uid,_idProduct} = req.body;
-	if( !_uid || !_idProduct){
-		res.send({msg: 'Kh bỏ trống'})
-	}else{
-		Cart.update({_uid},{$pull: {"products": {_idProduct} }},function(err){
-			if(err){
+	const { _uid, _idProduct } = req.body;
+	if (!_uid || !_idProduct) {
+		res.send({ msg: 'Kh bỏ trống' })
+	} else {
+		Cart.update({ _uid }, { $pull: { "products": { _idProduct } } }, function (err) {
+			if (err) {
 				console.log(err)
 			}
 			res.end();
@@ -289,12 +290,12 @@ exports.findCart = async (req, res) => {
 };
 
 exports.getBanner = async (req, res) => {
-	await Banner.findOne({_id:"60598839cacc200004977bca"}, function (err, data) {
+	await Banner.findOne({ _id: "60598839cacc200004977bca" }, function (err, data) {
 		if (err) {
 			res.send(err)
 			res.end()
 		} else {
-			var abc = data.items.filter(function(e){
+			var abc = data.items.filter(function (e) {
 				return (e.isActive == true)
 			})
 			res.send(abc)
@@ -309,25 +310,29 @@ exports.loginAdmin = async (req, res) => {
 
 exports.bestSeller = async (req, res) => {
 	await Order.aggregate([
-		{ $match: {status: 2 }},
+		{ $match: { status: 2 } },
 		{ $unwind: "$products" },
-		{ $group: { 
-			_id: "$products._idProduct", 
-			count: { $sum: "$products.quality" },
-		}},
-		{ $sort: {count: -1}},
-		{ $limit : 5 },
-		{ $lookup: {
-			from: "products",
-			localField: "_id", // find từ local trong function
-			foreignField: "_id", // find trên collection mongoDB
-			as: "products"
-		}},
-	],function(err,data){
-		if(err){
+		{
+			$group: {
+				_id: "$products._idProduct",
+				count: { $sum: "$products.quality" },
+			}
+		},
+		{ $sort: { count: -1 } },
+		{ $limit: 5 },
+		{
+			$lookup: {
+				from: "products",
+				localField: "_id", // find từ local trong function
+				foreignField: "_id", // find trên collection mongoDB
+				as: "products"
+			}
+		},
+	], function (err, data) {
+		if (err) {
 			res.send(err);
 			res.end();
-		}else{
+		} else {
 			res.send(data);
 			res.end();
 		}
@@ -336,34 +341,60 @@ exports.bestSeller = async (req, res) => {
 
 exports.cancelOrder = async (req, res) => {
 	let _id = req.params._id;
-	try{
-        await Order.findOneAndUpdate({_id},{
-            status: 3
-        },function(err){
-			if(err){
+	try {
+		await Order.findOneAndUpdate({ _id }, {
+			status: 3
+		}, function (err) {
+			if (err) {
 				res.send(err)
 				res.end()
-			}else{
-				res.send({msg: `Hủy đơn hàng thành công: ${_id}`})
+			} else {
+				res.send({ msg: `Hủy đơn hàng thành công: ${_id}` })
 				res.end();
 			}
 		});
-    }catch(err){
+	} catch (err) {
 		res.send(err);
 		res.end();
 	}
 };
 
 exports.getAllDiscount = async (req, res) => {
-	try{
-		await Discount.find({isActive: true},function(err,data){
-			if(err){
+	try {
+		await Discount.find({ isActive: true }, function (err, data) {
+			if (err) {
 				res.send(err);
 				res.end();
-			}else{
-				res.send({Discount: data})
+			} else {
+				res.send({ Discount: data })
 				res.end();
 			}
 		})
-	}catch(err){}
+	} catch (err) { }
+};
+
+exports.exchangeDiscountbyUser = async (req, res) => {
+	let _id = req.body._id;
+	let _uid = req.body._uid;
+	try {
+		await Discount.findOne({ _id }, function (err, data) {
+			if (err) {
+				res.send(err)
+				res.end()
+			} else {
+				user.findOneAndUpdate(
+					{ _id: _uid, point: {$gt: data.cost} },
+					{ $push: { voucher: { "_idDiscount": data._id } }, $inc: {point: - data.cost} }
+					, function (err) {
+						if (err) {
+							res.send(err)
+							res.end()
+						} else {
+							res.end();
+						}
+						res.end();
+					})
+			}
+		})
+	} catch (err) { }
 };

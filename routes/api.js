@@ -27,4 +27,5 @@ router.post('/api/removeProductbyCart',API.removeProductbyCart);
 router.get('/api/findCart',API.findCart);
 router.get('/api/banner',API.getBanner);
 router.get('/api/discounts',API.getAllDiscount);
+router.post('/api/exchangeVoucher',API.exchangeDiscountbyUser);
 module.exports = router;

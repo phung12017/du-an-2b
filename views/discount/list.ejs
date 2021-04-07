@@ -208,6 +208,13 @@
                                                                 required="Vui lòng nhập %">
                                                         </div>
                                                         <div class="form-group">
+                                                            <label for="exampleInput5"
+                                                                class="text-gray-900 font-weight-bold">Giá Point</label>
+                                                            <input type="number" class="form-control" id="exampleInput5"
+                                                                name="cost" min="100" max=""
+                                                                required="Vui lòng nhập giá">
+                                                        </div>
+                                                        <div class="form-group">
                                                             <label for="exampleInput3"
                                                                 class="text-gray-900 font-weight-bold">Ngày bắt
                                                                 đầu</label>
@@ -239,6 +246,7 @@
                                                 <th><div class="text-center">Giá trị</div></th>
                                                 <th><div class="text-center">Ngày bắt đầu</div></th>
                                                 <th><div class="text-center">Ngày kết thúc</div></th>
+                                                <th><div class="text-center">Point</div></th>
                                                 <th><div class="text-center">Tiêu đề</div></th>
                                                 <th><div class="text-center">Hành động</div></th>
                                             </tr>
@@ -268,6 +276,11 @@
                                                             <%-moment(e.dateEnd).locale('vi').format('L')-%>
                                                         </div>
                                                     </th>
+                                                    <td class="text-gray-000">
+                                                        <div class="text-center">
+                                                            <%- e.cost -%>
+                                                        </div>
+                                                    </td>
                                                     <td class="text-gray-000">
                                                         <div class="text-center">
                                                             <%- e.title -%>

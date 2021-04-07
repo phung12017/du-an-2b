@@ -8,6 +8,9 @@ const discountSchema = new Schema({
     code:{
         type:String,trim:true
     },
+    cost:{
+        type:Number,trim:true
+    },
     percent:{
         type:Number,trim:true
     },
