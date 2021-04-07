@@ -28,4 +28,5 @@ router.get('/api/findCart',API.findCart);
 router.get('/api/banner',API.getBanner);
 router.get('/api/discounts',API.getAllDiscount);
 router.post('/api/exchangeVoucher',API.exchangeDiscountbyUser);
+router.get('/api/findDiscountbyUser/:phone',API.getDiscountbyUser);
 module.exports = router;

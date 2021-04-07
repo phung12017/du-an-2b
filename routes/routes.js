@@ -12,6 +12,7 @@ const ProductController = require('../controllers/product');
 const OrderController = require('../controllers/order');
 const BannerController = require('../controllers/banner');
 const DiscountController = require('../controllers/discount');
+const UserController = require('../controllers/user');
 
 //models
 const Product = require('../models/product')
@@ -166,5 +167,9 @@ router.get('/admin/banner/enable/:_id', BannerController.enableBanner)
 //banner -> disable banner 
 router.get('/admin/banner/disable/:_id', BannerController.disableBanner)
 
+//=== User Controller ===//
+
+//user -> getAll
+router.get('/admin/users',UserController.getAll)
 
 module.exports = router;

@@ -383,18 +383,37 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 				res.end()
 			} else {
 				user.findOneAndUpdate(
-					{ _id: _uid, point: {$gt: data.cost} },
-					{ $push: { voucher: { "_idDiscount": data._id } }, $inc: {point: - data.cost} }
-					, function (err) {
+					{ _id: _uid, point: { $gt: data.cost } },
+					{ $push: { voucher: { "_idDiscount": data._id } }, $inc: { point: - data.cost } }
+					, function (err, result) {
 						if (err) {
 							res.send(err)
 							res.end()
 						} else {
-							res.end();
+							if (result == null) {
+								res.send(`Bạn không đủ point để đổi voucher này.`);
+								res.end();
+							} else {
+								res.send(`Bạn đã đổi voucher thành công.`);
+								res.end();
+							}
 						}
-						res.end();
 					})
 			}
 		})
 	} catch (err) { }
 };
+
+exports.getDiscountbyUser = async (req, res) => {
+	let phone = '+84' + req.params.phone;
+	await user.findOne({ phone }).populate('voucher._idDiscount').exec(function (err, data) {
+		if (err) {
+			res.send(err);
+			res.end();
+		} else {
+			var abc = data.voucher.filter(function (e) { return (e._idDiscount.isActive == true) })
+			res.send({Voucher: abc})
+			res.end();
+		}
+	})
+}

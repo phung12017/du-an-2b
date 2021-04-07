@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hexia Admin - Order</title>
+    <title>Hexia Admin - Discount</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -36,7 +36,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-coffee"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Hexia Admin </div>
+                <div class="sidebar-brand-text mx-3">Hexia Admin</div>
             </a>
 
             <!-- Divider -->
@@ -50,7 +50,7 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/admin/orders">
                     <i class="fas fa-receipt"></i>
                     <span>Đơn hàng</span></a>
@@ -70,19 +70,18 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="/admin/discounts">
                     <i class="fas fa-percent"></i>
                     <span>Mã giảm giá</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/users">
                     <i class="fas fa-users"></i>
                     <span>Khách hàng</span></a>
             </li>
-
 
 
 
@@ -161,63 +160,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-
                     <!-- Content Row -->
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Số lượng đơn hàng: <%-Order.length-%>
-                                </h6>
-                                <div class="dropdown no-arrow">
-                                    <!-- Button trigger modal -->
-
-
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-gray-900 font-weight-bold"
-                                                        id="exampleModalLabel">Add new menu</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="/admin/menu" method="POST"
-                                                        enctype="multipart/form-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1"
-                                                                class="text-gray-900 font-weight-bold">Title</label>
-                                                            <input type="text" class="form-control"
-                                                                id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                                placeholder="Enter title" name="title" required>
-
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlFile1"
-                                                                class="text-gray-900 font-weight-bold">Image </label>
-                                                            <input type="file" class="form-control-file" id="myFile"
-                                                                name="file" required>
-                                                        </div>
-
-                                                        <button type="submit" class="btn btn-primary">Save
-                                                            changes</button>
-
-                                                    </form>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <h6 class="m-0 font-weight-bold text-primary">Khách hàng: <%- users.length -%></h6>
                             </div>
                             <div class="card-body">
 
@@ -225,77 +174,36 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Mã đơn hàng</th>
-
-                                                <th>Ngày tạo</th>
-                                                <th>Trạng thái</th>
-                                                <th>Hành động</th>
+                                                <th><div class="text-center">#</div></th>
+                                                <th><div class="text-center">Số điện thoại</div></th>
+                                                <th><div class="text-center">Point</div></th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            <% Order.forEach(function(e){ %>
+
+                                            <% users.forEach(function(e,i){
+                                                var replaced = e.phone;
+                                                phone= replaced.slice(0, 6) + replaced.slice(2).replace(/.(?=...)/g, '*');
+                                                console.log(replaced)
+                                            %>
                                                 <tr>
                                                     <td>
-                                                        <%-e._id-%>
+                                                        <div class="text-center">
+                                                            <%-i + 1-%>
+                                                        </div>
                                                     </td>
-
-
+                                                    <td>
+                                                        <div class="text-center" >
+                                                            <%- phone -%>
+                                                        </div>
+                                                    </td>
                                                     <th>
-                                                        <%- moment(e.createAt).locale('vi').format('hh:mm - L') -%>
+                                                        <div class="text-center">
+                                                            <%-e.point-%>
+                                                        </div>
                                                     </th>
-
-
-                                                    <% if (e.status===0) { %>
-                                                        <th>
-                                                            Đang chờ xử lý
-                                                        </th>
-                                                        <% } else if(e.status===1){%>
-                                                            <th>
-                                                                Đang giao hàng
-                                                            </th>
-
-                                                            <%}else if(e.status===2){%>
-
-                                                                <th>
-                                                                    Thành công
-                                                                </th>
-                                                                <%} else if(e.status===3){%>
-                                                                    <th>Hủy đơn</th>
-                                                                    <%}%>
-                                                                        
-                                                                        <td>
-                                                                            <% if (e.status===0) { %>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/giaohang/<%- e._id -%>">
-                                                                                Giao hàng
-                                                                            </a>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/details/<%- e._id -%>">
-                                                                                Chi tiết
-                                                                            </a>
-
-                                                                            <%} else if(e.status===1) { %>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/hoanthanh/<%- e._id -%>">
-                                                                                Hoàn Thành
-                                                                            </a>
-
-                                                                            <a class="btn btn-success"
-                                                                                href="/admin/order/details/<%- e._id -%>">
-                                                                                Chi tiết
-                                                                            </a>
-
-                                                                            <% }  else { %>
-                                                                                <a class="btn btn-success"
-                                                                                    href="/admin/order/details/<%- e._id -%>">
-                                                                                    Chi tiết
-                                                                                </a>
-                                                                            <% } %>
-                                                                        </td>
+                                                    
                                                 </tr>
                                                 <% }); %>
                                         </tbody>
@@ -303,14 +211,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Content Row -->
-
-
-
-
 
                 </div>
                 <!-- /.container-fluid -->
