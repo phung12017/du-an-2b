@@ -217,7 +217,7 @@
                     <div class="container-fluid">
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
-                            <% Order.filter(function(e){%>
+                            <% Order.filter(function(e){ %>
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                                     style="margin-bottom: 1%">
                                     <h6 class="m-0 font-weight-bold text-primary right">Mã đơn hàng: <%-e._id-%>
@@ -340,8 +340,8 @@
                                                                     <td style="visibility:hidden"></td>
                                                                     <td style="visibility:hidden"></td>
                                                                     <td style="visibility:hidden"></td>
-                                                                    <td> <strong>Mã khuyến mãi: </strong><strong style="color: red;"><%- e.voucher.code -%></strong> </td>
-                                                                    <td style="font-weight: bold;" class="percent"> <%- e.voucher.percent -%>%
+                                                                    <td> <strong>Mã khuyến mãi: </strong><strong style="color: red;"><%- e.voucher === null?'Không có':e.voucher.code  -%></strong> </td>
+                                                                    <td style="font-weight: bold;" class="percent"> <%- e.voucher === null?'0':e.voucher.percent -%>%
                                                                     </td>
                                                                 </tr>
                                                                     <tr>

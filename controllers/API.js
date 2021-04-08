@@ -141,7 +141,7 @@ exports.createOrder = async (req, res) => {
 					createAt: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
 					updateAt: null,
 					delivery: req.body.delivery,
-					// voucher: isNan(req.body.voucher) ? "" : "",
+					voucher: req.body.voucher.trim(),
 				}
 				items.products = req.body.products.map(item => {
 					return {
