@@ -336,6 +336,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <% }); %>
+                                                                <tr>
+                                                                    <td style="visibility:hidden"></td>
+                                                                    <td style="visibility:hidden"></td>
+                                                                    <td style="visibility:hidden"></td>
+                                                                    <td> <strong>Mã khuyến mãi: </strong><strong style="color: red;"><%- e.voucher.code -%></strong> </td>
+                                                                    <td style="font-weight: bold;" class="percent"> <%- e.voucher.percent -%>%
+                                                                    </td>
+                                                                </tr>
                                                                     <tr>
                                                                         <td style="visibility:hidden"></td>
                                                                         <td style="visibility:hidden"></td>
@@ -412,17 +420,19 @@
 
     <script>
         var sumExpenses = 0;
+        var percentExpenses = 0;
         var tdBudget = document.getElementById('dataTable').getElementsByTagName('td');
 
         for (var i = 0; i < tdBudget.length; i++) {
 
             if (tdBudget[i].className == "spanexpense") {
                 sumExpenses += isNaN(tdBudget[i].innerHTML) ? 0 : parseInt(tdBudget[i].innerHTML);
+            }else if(tdBudget[i].className == "percent"){
+                percentExpenses += isNaN(tdBudget[i].innerHTML.slice(0,3)) ? 0 : parseInt(tdBudget[i].innerHTML.slice(0,3));
             }
         }
 
-        document.getElementById('sumExpenses').innerHTML = sumExpenses.toLocaleString('vi', { style: 'currency', currency: 'VND' });
-
+        document.getElementById('sumExpenses').innerHTML = (sumExpenses - (sumExpenses * percentExpenses/100)).toLocaleString('vi', { style: 'currency', currency: 'VND' });
     </script>
 
     <!-- Bootstrap core JavaScript-->

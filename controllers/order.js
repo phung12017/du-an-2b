@@ -18,7 +18,7 @@ exports.getAll = async (req, res) => {
 
 exports.getOrderDetails = async (req, res) => {
     try {
-        await Order.find({ _id: req.params._id }).populate('_uid').populate('products._idProduct').exec(function (err, data) {
+        await Order.find({ _id: req.params._id }).populate('_uid').populate('products._idProduct').populate('voucher').exec(function (err, data) {
             if (err) {
                 res.send(err);
                 res.end();

@@ -176,6 +176,7 @@
                                             <tr>
                                                 <th><div class="text-center">#</div></th>
                                                 <th><div class="text-center">Số điện thoại</div></th>
+                                                <th><div class="text-center">Địa chỉ</div></th>
                                                 <th><div class="text-center">Point</div></th>
                                             </tr>
                                         </thead>
@@ -185,7 +186,6 @@
                                             <% users.forEach(function(e,i){
                                                 var replaced = e.phone;
                                                 phone= replaced.slice(0, 6) + replaced.slice(2).replace(/.(?=...)/g, '*');
-                                                console.log(replaced)
                                             %>
                                                 <tr>
                                                     <td>
@@ -196,6 +196,11 @@
                                                     <td>
                                                         <div class="text-center" >
                                                             <%- phone -%>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-center" >
+                                                            <%- e.address -%>
                                                         </div>
                                                     </td>
                                                     <th>

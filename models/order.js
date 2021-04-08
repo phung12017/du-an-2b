@@ -25,6 +25,7 @@ const orderSchema = new Schema({
     createAt: { type: Date },
     updateAt: { type: Date },
     status: { type: Number },
+    voucher: { type: Schema.Types.ObjectId, ref: 'discounts'},
 });
 
 module.exports = mongoose.model('orders', orderSchema);
