@@ -407,19 +407,26 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 
 exports.getDiscountbyUser = async (req, res) => {
 	let phone = '+84' + req.params.phone;
-
 	try{
-		await user.findOne({ phone }).populate('voucher._idDiscount').exec(function (err, data) {
-			if (err) {
-				res.send(err);
-				res.end();
-			} else {
-				var abc = data.voucher.filter(function (e) { return (e._idDiscount.isActive == true) })
-				res.send({Voucher: abc})
-				res.end();
-			}
-		})
+		if(phone){	
+			await user.findOne({ phone }).populate('voucher._idDiscount').exec(function (err, data) {
+				if (err) {
+					res.send(err);
+					res.end();
+				} else {
+					if(data == null){
+						res.send({msg: `${phone} không tồn tại!`})
+						res.end()
+					}else{
+						var abc = data.voucher.filter(function (e) { return (e._idDiscount.isActive == true) })
+					res.send({Voucher: abc})
+					res.end();
+					}
+				}
+			})
+		}
 	}catch(err){
-		res.send(err)
+		res.send(err);
+		res.end();
 	}
 };
