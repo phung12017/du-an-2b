@@ -51,9 +51,9 @@ router.use(bodyParser.json());
 //cấu hình passport
 router.use(
 	session({
-		secret: 'mysecret',
-		resave: true,
-		saveUninitialized: true,
+		secret:"secret",
+		resave: false,
+		saveUninitialized: false,
 		// cookie: {
 		// 	maxAge: 1000 * 60 * 5,
 		// },
@@ -81,9 +81,9 @@ Passport.use(
 				}
 				if (user) {
 					//thành công sẽ trả về true với giá trị user
-					return done(null, user);
+					return done(null, user,{message:'Đăng nhập thành công'});
 				} else {
-					return done(null, false);
+					return done(null, false,{message:'Tài khoản hoăc mật khẩu lỗi'});
 				}
 			});
 		}
