@@ -180,19 +180,14 @@ exports.findOder = async (req, res) => {
 };
 
 exports.findOrderbyUser = async (req, res) => {
-	const { _uid } = req.params
+	const  _uid  = req.params._uid;
 	await Order.find({ _uid }, function (err, data) {
 		if (err) {
-			console.log(err);
+			res.send({err:`${_uid} không tồn tại`});
 			res.end();
 		} else {
-			if(data == null){
-				res.send({msg: `${_uid} không tồn tại!`})
-				res.end()
-			}else{
-				res.send({ Order: data })
-				res.end();
-			}
+			res.send({ Order: data })
+			res.end();
 		}
 	})
 }
