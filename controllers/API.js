@@ -141,7 +141,7 @@ exports.createOrder = async (req, res) => {
 					createAt: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
 					updateAt: null,
 					delivery: req.body.delivery,
-					voucher: req.body.voucher.trim(),
+					voucher: req.body.voucher,
 				}
 				items.products = req.body.products.map(item => {
 					return {
@@ -151,7 +151,12 @@ exports.createOrder = async (req, res) => {
 				});
 				const order = new Order(items);
 				order.save().then(res.json({ items }));
-				res.end();
+
+				if(req.body.voucher != null){
+					user.updateOne({_id: req.body._uid},{$pull:{"voucher": {"_idDiscount": req.body.voucher } }},function(err,data){res.end()})
+				}else{
+					res.end();
+				}
 			}
 		} catch (err) { }
 	}
@@ -378,31 +383,41 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 	let _id = req.body._id;
 	let _uid = req.body._uid;
 	try {
-		await Discount.findOne({ _id }, function (err, data) {
-			if (err) {
-				res.send(err)
+		await user.findOne({_id: _uid, voucher: {$elemMatch: {"_idDiscount": _id}}},function(err,data){
+			if(err){
+				res.send(err);
 				res.end()
-			} else {
-				user.findOneAndUpdate(
-					{ _id: _uid, point: { $gt: data.cost } },
-					{ $push: { voucher: { "_idDiscount": data._id } }, $inc: { point: - data.cost } }
-					, function (err, result) {
-						if (err) {
+			}else{
+				if(data == null){
+					Discount.findOne({_id},function(err,voucher){
+						if(err){
+							res.send(err);
 							res.send(err)
-							res.end()
-						} else {
-							if (result == null) {
-								res.send(`Bạn không đủ point để đổi voucher này.`);
-								res.end();
-							} else {
-								res.send(`Bạn đã đổi voucher thành công.`);
-								res.end();
-							}
+						}else{
+							user.findOneAndUpdate({ _id: _uid, point: { $gt: voucher.cost } },
+							{ $addToSet: { voucher: { "_idDiscount": voucher._id } }, $inc: { point: - voucher.cost } },function(err,exchange){
+								if (err) {
+									res.send(err);
+									res.end()
+								}else{
+									if (exchange == null) {
+										res.send(`Bạn không đủ point để đổi voucher này.`);
+										res.end();
+									}else{
+										res.send(`Bạn đã đổi voucher thành công.`);
+										res.end();
+									}
+								}
+							})
 						}
 					})
+				}else{
+					res.send('Bạn đã đổi voucher này rồi');
+					res.end();
+				}
 			}
 		})
-	} catch (err) { }
+	} catch (err) { res.send(err) }
 };
 
 exports.getDiscountbyUser = async (req, res) => {
