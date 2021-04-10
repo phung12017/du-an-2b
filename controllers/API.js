@@ -186,8 +186,13 @@ exports.findOrderbyUser = async (req, res) => {
 			console.log(err);
 			res.end();
 		} else {
-			res.send({ Order: data })
-			res.end();
+			if(data == null){
+				res.send({msg: `${_uid} không tồn tại!`})
+				res.end()
+			}else{
+				res.send({ Order: data })
+				res.end();
+			}
 		}
 	})
 }
