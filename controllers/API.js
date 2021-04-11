@@ -117,7 +117,8 @@ exports.authUser = async (req, res) => {
 			if (err) {
 				res.send({ msg: err })
 			} else {
-				res.send(User)
+				res.send({User: User})
+				res.end();
 			}
 		})
 	} catch (err) {
