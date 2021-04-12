@@ -9,20 +9,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hexia Admin - Product</title>
+    <title>Hexia Admin - Notification</title>
 
-    <!-- Custom fonts for this template -->
+    <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -66,32 +63,35 @@
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="/admin/products">
                     <i class="fab fa-product-hunt"></i>
                     <span>Sản phẩm</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="/admin/discounts">
                     <i class="fas fa-percent"></i>
                     <span>Mã giảm giá</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="/admin/users">
                     <i class="fas fa-users"></i>
                     <span>Khách hàng</span></a>
             </li>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin/notifications">
                     <i class="fas fa-bell"></i>
                     <span>Thông báo</span></a>
             </li>
+
+
+
 
 
 
@@ -114,18 +114,17 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <form class="form-inline">
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </form>
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
 
-            
+                    <!-- Topbar Search -->
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
 
-            
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -166,71 +165,37 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
-                        <a href="/admin/product/add" class="d-none d-sm-inline-block btn btn-sm xxx shadow-sm"><i
-                                class="fas fa-edit fa-sm text-white-50"></i> Thêm sản phẩm mới</a>
+                        <h1 class="h3 mb-0 text-gray-800">Thông báo / Tạo thông báo </h1>
+
                     </div>
 
                     <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                   
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Ảnh</th>
-                                            <th>Tên</th>
-                                            <th>Giá</th>
-                                            <th>Mã danh mục</th>
-                                            <th>Trạng thái</th>
-                                            <th>Hành động</th>
-                                          
-                                        </tr>
-                                    </thead>
+                    <!-- Content Row -->
+                    <form class="row" action="/admin/product/add " method="POST" enctype="form-data">
 
-                                    <tbody>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-12 col-md-12 mb-4">
+                            <div class="card shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="text-gray-900 font-weight-bold">Tiêu đề *</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="Vui lòng nhập đầy đủ tiêu đề"
+                                            name="title" value="" required>
+                                    </div>
 
-                                        <% prods.forEach(function(e){ %>
-                                        <tr>
-                                            <td>
-                                                <div class="text-center">
-                                                    <img width="50" src="/uploads/<%-e.imageUrl-%>" class="rounded"
-                                                        alt="...">
-                                                </div>
-                                            </td>
-                                            <td><%-e.title-%></td>
-                                            <td>
-                                                <%-e.price.toLocaleString('vi', {style : 'currency', currency : 'VND'}) -%>
-                                            </td>
-
-                                            <td><%-e._idCategory-%></td>
-
-                                            <td class="text-gray-000"><%-e.isActive===true?'Còn bán':'Ngừng bán'  -%></td>
-                                            <td>
-
-                                            
-                                                                                      
-                                                <!-- Button trigger modal -->
-                                                <a class="btn btn-primary" href="/admin/product/edit/<%-e._id%>">
-                                              Sửa
-                                                </a>
-                                       
- 
-
-                                                <a class="btn btn-danger" href="/admin/product/remove/<%-e._id-%>"
-                                                    onclick="return confirm('Bạn chắc muốn xóa sản phẩm này chứ ?');">Xóa</a>
-                                            </td>
-                                        
-                                        </tr>
-                                        <% }); %>
-                                     
-                              
-                                    </tbody>
-                                </table>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1"
+                                            class="text-gray-900 font-weight-bold">Nội dụng * </label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="Vui lòng nhập đầy đủ nội dụng"
+                                            name="content" value="" required>    
+                                    </div>
+                                    <button class="btn xxx" type="submit">Gửi</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -242,7 +207,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright © Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -290,11 +255,18 @@
     <script src="/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+
+
 
 </body>
 

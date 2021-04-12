@@ -18,6 +18,7 @@ const OrderController = require('../controllers/order');
 const BannerController = require('../controllers/banner');
 const DiscountController = require('../controllers/discount');
 const UserController = require('../controllers/user');
+const NotificationController = require('../controllers/notification');
 
 //models
 const Product = require('../models/product')
@@ -272,5 +273,10 @@ router.get('/admin/banner/disable/:_id', isAuthenticated,BannerController.disabl
 
 //user -> getAll
 router.get('/admin/users', UserController.getAll)
+
+//=== User Controller ===//
+
+//notification -> add
+router.get('/admin/notifications',isAuthenticated, NotificationController.add )
 
 module.exports = router;
