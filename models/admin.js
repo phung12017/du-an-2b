@@ -6,6 +6,7 @@ const adminSchema = new Schema({
     password: { type: String, trim: true },
     name: { type: String, trim: true },
     image: { type: String, trim: true },
+    fcmToken:{type:String}
 });
 
 module.exports = mongoose.model('admin', adminSchema);
