@@ -117,10 +117,10 @@ exports.authUser = async (req, res) => {
 			if (err) {
 				res.send({ msg: err })
 			} else {
-				if(User == null){
-					res.send({User});
+				if (User == null) {
+					res.send({ User });
 					res.end();
-				}else{
+				} else {
 					res.send(User);
 					res.end();
 				}
@@ -158,9 +158,9 @@ exports.createOrder = async (req, res) => {
 				const order = new Order(items);
 				order.save().then(res.json({ items }));
 
-				if(req.body.voucher != null){
-					user.updateOne({_id: req.body._uid},{$pull:{"voucher": {"_idDiscount": req.body.voucher } }},function(err,data){res.end()})
-				}else{
+				if (req.body.voucher != null) {
+					user.updateOne({ _id: req.body._uid }, { $pull: { "voucher": { "_idDiscount": req.body.voucher } } }, function (err, data) { res.end() })
+				} else {
 					res.end();
 				}
 			}
@@ -186,10 +186,10 @@ exports.findOder = async (req, res) => {
 };
 
 exports.findOrderbyUser = async (req, res) => {
-	const  _uid  = req.params._uid;
+	const _uid = req.params._uid;
 	await Order.find({ _uid }, function (err, data) {
 		if (err) {
-			res.send({err:`${_uid} không tồn tại`});
+			res.send({ err: `${_uid} không tồn tại` });
 			res.end();
 		} else {
 			res.send({ Order: data })
@@ -389,35 +389,35 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 	let _id = req.body._id;
 	let _uid = req.body._uid;
 	try {
-		await user.findOne({_id: _uid, voucher: {$elemMatch: {"_idDiscount": _id}}},function(err,data){
-			if(err){
+		await user.findOne({ _id: _uid, voucher: { $elemMatch: { "_idDiscount": _id } } }, function (err, data) {
+			if (err) {
 				res.send(err);
 				res.end()
-			}else{
-				if(data == null){
-					Discount.findOne({_id},function(err,voucher){
-						if(err){
+			} else {
+				if (data == null) {
+					Discount.findOne({ _id }, function (err, voucher) {
+						if (err) {
 							res.send(err);
 							res.send(err)
-						}else{
+						} else {
 							user.findOneAndUpdate({ _id: _uid, point: { $gt: voucher.cost } },
-							{ $addToSet: { voucher: { "_idDiscount": voucher._id } }, $inc: { point: - voucher.cost } },function(err,exchange){
-								if (err) {
-									res.send(err);
-									res.end()
-								}else{
-									if (exchange == null) {
-										res.send(`Bạn không đủ point để đổi voucher này.`);
-										res.end();
-									}else{
-										res.send(`Bạn đã đổi voucher thành công.`);
-										res.end();
+								{ $addToSet: { voucher: { "_idDiscount": voucher._id } }, $inc: { point: - voucher.cost } }, function (err, exchange) {
+									if (err) {
+										res.send(err);
+										res.end()
+									} else {
+										if (exchange == null) {
+											res.send(`Bạn không đủ point để đổi voucher này.`);
+											res.end();
+										} else {
+											res.send(`Bạn đã đổi voucher thành công.`);
+											res.end();
+										}
 									}
-								}
-							})
+								})
 						}
 					})
-				}else{
+				} else {
 					res.send('Bạn đã đổi voucher này rồi');
 					res.end();
 				}
@@ -427,9 +427,21 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 };
 
 
-exports.updateToken = async (req,res)=>{
-	 
+exports.updateToken = async (req, res) => {
+
 	let phone = '+84' + req.params.phone;
+	let fcmToken = req.params.fcmToken
+	try {
+		let result = await user.findOneAndUpdate({ phone: phone }, { fcmToken: fcmToken })
+		res.json({
+			result,
+			success: 1
+		})
+
+	} catch (error) {
+		res.json({ msg: error, success: 0 })
+	}
+
 	// try {
 	// 	await user.findOneAndUpdate({ phone }, {
 	// 		fcmToken:req.params.fcmToken
@@ -445,30 +457,30 @@ exports.updateToken = async (req,res)=>{
 	// } catch (err) {
 	// 	res.send({ msg: err });
 	// }
-	
+
 }
 
 exports.getDiscountbyUser = async (req, res) => {
 	let phone = '+84' + req.params.phone;
-	try{
-		if(phone){	
+	try {
+		if (phone) {
 			await user.findOne({ phone }).populate('voucher._idDiscount').exec(function (err, data) {
 				if (err) {
 					res.send(err);
 					res.end();
 				} else {
-					if(data == null){
-						res.send({msg: `${phone} không tồn tại!`})
+					if (data == null) {
+						res.send({ msg: `${phone} không tồn tại!` })
 						res.end()
-					}else{
+					} else {
 						var abc = data.voucher.filter(function (e) { return (e._idDiscount.isActive == true) })
-					res.send({Voucher: abc})
-					res.end();
+						res.send({ Voucher: abc })
+						res.end();
 					}
 				}
 			})
 		}
-	}catch(err){
+	} catch (err) {
 		res.send(err);
 		res.end();
 	}
