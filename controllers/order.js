@@ -48,28 +48,67 @@ exports.done = async (req, res) => {
                         let cal = item._idProduct.price * item.quality;
                         sum += cal;
                     })
-                    point = Math.round(sum * 9 / 14000) 
-                    User.findOneAndUpdate({ _id: data._uid }, { $inc: { point: point } }, function (err) {
+
+                    point = Math.round(sum * 9 / 14000)
+                    User.findOneAndUpdate({ _id: data._uid }, { $inc: { point: point } }, function (err,user) {
                         if (err) {
                             res.send(err);
                             res.end();
                         } else {
-                            res.redirect('/admin/orders');
-                            res.end();
+
+                            const message_option = {
+                                token: user.fcmToken,
+                                notification: {
+                                    title: `Xin cảm ơn ${user.name}`,
+                                    body: `Giao hàng thành công, xin cảm ơn quý khách đã ủng hộ Hexia Coffee. Chúc quý khách ngon miệng !`,
+                                },
+                                data: {
+                        
+                                }
+                            }
+                            FBAdmin.admin.messaging().send(message_option).then(r => {
+                                res.redirect('/admin/orders')
+                            }).catch(e => {
+                                res.json({
+                                    msg:e
+                                })
+                            })
                         }
+
                     })
+
                 }
                 pointAdd();
             }
         })
     } catch (err) { res.send(err) }
 }
+//noti
+const FBAdmin = require('../contants/firebase_config');
 
 exports.update = async (req, res) => {
-    try {
-        await Order.findOneAndUpdate({ _id: req.params._id }, {
-            status: 1
-        })
+
+
+    let result = await Order.findByIdAndUpdate({ _id: req.params._id }, { status: 1 })
+    let user = await User.findById({ _id: result._uid })
+    const message_option = {
+        token: user.fcmToken,
+        notification: {
+            title: `Xin chào ${user.name}`,
+            body: `Đơn hàng của bạn đã được Hexia Coffee xác nhận và đang trên đường giao hàng. Chúc bạn thưởng thức ngon miệng !`,
+        },
+        data: {
+
+        }
+    }
+    FBAdmin.admin.messaging().send(message_option).then(r => {
         res.redirect('/admin/orders')
-    } catch (err) { }
+    }).catch(e => {
+        res.json({
+            msg:e
+        })
+    })
+
+
+
 }

@@ -5,6 +5,7 @@ exports.getAll = async (req, res) => {
             res.send(err);
             res.end();
         }else{
+           
             res.render('./user/list',{users: data});
             res.end();
         }

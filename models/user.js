@@ -14,6 +14,7 @@ const userSchema = new Schema({
     name:{type:String,trim:true},
     address:{type:String,trim:true},
     point:{type: Number, trim: true},
+    fcmToken:{type:String},
     voucher:[childSchema],
 });
 

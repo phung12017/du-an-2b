@@ -278,5 +278,6 @@ router.get('/admin/users', UserController.getAll)
 
 //notification -> add
 router.get('/admin/notifications',isAuthenticated, NotificationController.add )
+router.post('/admin/notification/sendAll', NotificationController.sendAll )
 
 module.exports = router;

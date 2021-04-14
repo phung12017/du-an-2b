@@ -30,4 +30,7 @@ router.get('/api/discounts',API.getAllDiscount);
 router.post('/api/exchangeVoucher',API.exchangeDiscountbyUser);
 router.get('/api/findDiscountbyUser/:phone',API.getDiscountbyUser);
 ///test
+//
+
+router.get('/api/updateToken/:phone/:fcmToken',API.updateToken)
 module.exports = router;

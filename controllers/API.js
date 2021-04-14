@@ -426,6 +426,28 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 	} catch (err) { res.send(err) }
 };
 
+
+exports.updateToken = async (req,res)=>{
+	 
+	let phone = '+84' + req.params.phone;
+	// try {
+	// 	await user.findOneAndUpdate({ phone }, {
+	// 		fcmToken:req.params.fcmToken
+	// 	}, function (err, data) {
+	// 		if ((err)) {
+	// 			res.send({ msg: err });
+	// 			res.end();
+	// 		} else {
+	// 			res.send({ msg: `Update user: ${fcmToken}` })
+	// 			res.end();
+	// 		}
+	// 	})
+	// } catch (err) {
+	// 	res.send({ msg: err });
+	// }
+	
+}
+
 exports.getDiscountbyUser = async (req, res) => {
 	let phone = '+84' + req.params.phone;
 	try{
