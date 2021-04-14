@@ -260,50 +260,63 @@
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
+                               
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Thống kê hóa đơn</h6>
                                 </div>
+
                                 <div class="card-body">
                                     <h4 class="small font-weight-bold">Hủy đơn: <%-orderStatus.cancel-%> <span
                                                 class="float-right">
-                                                <%-orderStatus.cancel*100 /orderCount-%>%
-                                            </span></h4>
+                                                <%-(orderStatus.cancel*100 /orderCount).toString().slice(0,5)-%> %
+                                            </span>
+                                    </h4>
+
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 25%"
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width:   <%-orderStatus.cancel*100 /orderCount-%>%"
                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">Chờ xử lý: <%-orderStatus.processing-%><span
+
+
+                                    <h4 class="small font-weight-bold">Chờ xử lý: <%-orderStatus.processing-%>
+                                        <span
                                                 class="float-right">
-                                                <%-orderStatus.processing*100 /orderCount-%>%
-                                            </span>
+                                                <%- (orderStatus.processing*100 /orderCount).toString().slice(0,5) -%> %         
+                                        </span>
                                     </h4>
+                                    
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 41.6%"
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: <%- orderStatus.processing*100 /orderCount-%>%"
                                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
+                                    <!-- dang giao -->
                                     <h4 class="small font-weight-bold">Đang giao: <%-orderStatus.delivery-%><span
                                                 class="float-right">
-                                                <%-orderStatus.delivery*100 /orderCount-%>%
+                                                <%- (orderStatus.delivery*100 /orderCount).toString().slice(0,5) -%> %
+                                           
                                             </span>
                                     </h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 16.6%"
+                                        <div class="progress-bar" role="progressbar" style="width:  <%- orderStatus.delivery*100 /orderCount  -%> %"
                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
 
+                                    <!-- success -->
                                     <h4 class="small font-weight-bold">Thành công: <%-orderStatus.success-%><span
                                                 class="float-right">
-                                                <%-orderStatus.success*100 /orderCount-%>%
+                                                <%- (orderStatus.success*100 /orderCount).toString().slice(0,5) -%> %
                                             </span>
                                     </h4>
+
+                                    <!-- total -->
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 16.6%"
+                                        <div class="progress-bar bg-success" role="progressbar" style="width:<%-orderStatus.success*100 /orderCount-%>% "
                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
 
                                     <h4 class="small font-weight-bold">Tổng cộng: <%-orderCount-%> <span
                                                 class="float-right">100%</span></h4>
-                                    <div class="progress  ">
+                                    <div class="progress">
                                         <div class="progress-bar bg-info" role="progressbar" style="width: 100%"
                                             aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -458,39 +471,7 @@
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Pop up</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                     
                     </div>
 
 

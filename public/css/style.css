@@ -31,4 +31,10 @@
     justify-content: center;
   }
 
+  .bg-primary-login{
+    background-image: url(../uploads/bg.png);
+    background-position: center;
+    background-size: cover;
+}
 
+ 
