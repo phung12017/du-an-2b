@@ -407,10 +407,10 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 										res.end()
 									} else {
 										if (exchange == null) {
-											res.send(`Bạn không đủ point để đổi voucher này.`);
+											res.send({msg: `Bạn không đủ point để đổi voucher này.`});
 											res.end();
 										} else {
-											res.send(`Bạn đã đổi voucher thành công.`);
+											res.send({msg:`Bạn đã đổi voucher thành công.`});
 											res.end();
 										}
 									}
@@ -418,7 +418,7 @@ exports.exchangeDiscountbyUser = async (req, res) => {
 						}
 					})
 				} else {
-					res.send('Bạn đã đổi voucher này rồi');
+					res.send({msg:'Bạn đã đổi voucher này rồi'});
 					res.end();
 				}
 			}
