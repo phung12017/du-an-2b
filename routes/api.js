@@ -29,5 +29,6 @@ router.get('/api/banner',API.getBanner);
 router.get('/api/discounts',API.getAllDiscount);
 router.post('/api/exchangeVoucher',API.exchangeDiscountbyUser);
 router.get('/api/findDiscountbyUser/:phone',API.getDiscountbyUser);
-router.get('/api/updateToken/:phone/:fcmToken',API.updateToken)
+router.get('/api/updateToken/:phone/:fcmToken',API.updateToken);
+//test
 module.exports = router;
