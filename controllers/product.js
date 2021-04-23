@@ -90,18 +90,7 @@ exports.createProduct = async (req, res) => {
 
 
             if (req.body.title && req.body.price) {
-                // const data = req.body.topping
-
-                // let topping = []
-                // for (let i = 0; i < data['name'].length; i++) {
-                //     if (data.name[i] && data.value[i]) {
-                //         topping.push({
-                //             'name': data.name[i],
-                //             'value': data.value[i]
-                //         })
-                //     }
-                // }
-
+             
                 let product = new Product({
                     title: req.body.title,
                     price: req.body.price,
@@ -110,12 +99,7 @@ exports.createProduct = async (req, res) => {
                     imageUrl: req.file.filename,
                     createAt: new Date(),
                     isActive: true,
-                    // size: {
-                    //     small: null,
-                    //     medium: req.body.haftSize * 1 || null,
-                    //     large: req.body.haftSize * 2 || null
-                    // },
-                    // topping: topping,
+               
 
                 })
 
@@ -159,17 +143,7 @@ exports.update = async  (req, res) => {
 
 
                 if (req.body.title && req.body.price) {
-                    // const data = req.body.topping
-
-                    // let topping = []
-                    // for (let i = 0; i < data['name'].length; i++) {
-                    //     if (data.name[i] && data.value[i]) {
-                    //         topping.push({
-                    //             'name': data.name[i],
-                    //             'value': data.value[i]
-                    //         })
-                    //     }
-                    // }
+           
                     try {
                         let result =   await Product.findOneAndUpdate({ _id: req.params._id }, {
                             title: req.body.title,
@@ -177,15 +151,11 @@ exports.update = async  (req, res) => {
                             description: req.body.description,
                             imageUrl: req.file.filename,
                             isActive: true,
-                            size: {
-                                small: null,
-                                medium: req.body.haftSize * 1 || null,
-                                large: req.body.haftSize * 2 || null
-                            },
+                        
 
                         })
 
-                 res.redirect('/admin/products')
+                        res.redirect('/admin/products')
                     } catch (error) {
                         res.json({ msg: error })
                     }
@@ -200,11 +170,7 @@ exports.update = async  (req, res) => {
                         description: req.body.description,
 
                         isActive: true,
-                        size: {
-                            small: null,
-                            medium: req.body.haftSize * 1 || null,
-                            large: req.body.haftSize * 2 || null
-                        },
+                    
 
                     })
 

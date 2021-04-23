@@ -317,7 +317,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Edit Product</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Sản phẩm / Sửa sản phẩm </h1>
 
                     </div>
                  
@@ -326,27 +326,27 @@
                     <form class="row" action="/admin/product/edit/<%-product._id-%>" method="POST" enctype="multipart/form-data">
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-6 col-md-12 mb-4">
+                        <div class="col-xl-12 col-md-12 mb-4">
                             <div class="card   shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"
-                                            class="text-gray-900 font-weight-bold">Title</label>
+                                            class="text-gray-900 font-weight-bold">Tên sản phẩm *</label>
                                         <input type="text" class="form-control" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp" placeholder="Enter title" name="title"
+                                            aria-describedby="emailHelp" placeholder="Vui lòng nhập đầy đủ tên sản phẩm" name="title"
                                             value="<%- product.title -%>" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"
-                                            class="text-gray-900 font-weight-bold">Price</label>
+                                            class="text-gray-900 font-weight-bold">Giá bán *</label>
                                         <input type="number" class="form-control" 
-                                            aria-describedby="emailHelp" placeholder="Enter price" name="price"
+                                            aria-describedby="emailHelp" placeholder="Giá bán của sản phẩm" name="price"
                                             value="<%- product.price -%>" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1"
-                                            class="text-gray-900 font-weight-bold">Description</label>
+                                            class="text-gray-900 font-weight-bold">Mô tả *</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
                                             required name="description"><%- product.description -%></textarea>
                                     </div>
@@ -356,56 +356,7 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-6 col-md-12 mb-4">
-                            <div class="card   shadow h-100 py-2">
-                                <div class="card-body">
-
-                                    <div class="form-group">
-
-                                        <label class="text-gray-900 font-weight-bold" aria-describedby="emailHelp">
-                                            Size (option)</label>
-
-                                        <input type="number" class="form-control" placeholder="Haft size"
-                                            value="<%- product.size.medium -%>" name="haftSize">
-                                        <small id="emailHelp" class="form-text text-muted">Full size = Haft
-                                            size x 2</small>
-
-
-                                    </div>
-
-                                    <div class="form-group">
-
-                                        <label class="text-gray-900 font-weight-bold" aria-describedby="emailHelp">
-                                            Topping (option)</label>
-
-
-                                        <div class="row mb-4">
-                                            <div class="col">
-                                                <input type="text" class="form-control" placeholder="Name"
-                                                    name="topping[name]">
-                                            </div>
-                                            <div class="col">
-                                                <input type="number" class="form-control" placeholder="Value"
-                                                    name="topping[value]">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <input type="text" class="form-control" placeholder="Name"
-                                                    name="topping[name]">
-                                            </div>
-                                            <div class="col">
-                                                <input type="number" class="form-control" placeholder="Value"
-                                                    name="topping[value]">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+           
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-12 col-md-12 mb-4">
@@ -413,11 +364,11 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1"
-                                            class="text-gray-900 font-weight-bold">Image </label>
+                                            class="text-gray-900 font-weight-bold">Hình ảnh </label>
                                         <input type="file" class="form-control-file" id="myFile" name="file"
                                              >
                                     </div>
-                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                    <button class="btn btn-primary" type="submit">Lưu</button>
 
                                 </div>
 
