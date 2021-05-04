@@ -30,13 +30,13 @@ exports.sendAll = async (req, res) => {
 
 
     FBAdmin.admin.messaging().send(message_option).then(r => {
-        res.json({
-            result: true,
-            message: 'result ok movie',
-
-            send: 'ok',
-            dataSend: message_option
-        });
+        // res.json({
+        //     result: true,
+        //     message: 'Gửi thông báo thành công ',
+        //     dataSend: message_option
+        // });
+        //alert('xxx')
+        res.render('./notification/messageOK')
     }).catch(e => {
         res.json({
             err: e

@@ -278,6 +278,9 @@ router.get('/admin/users', UserController.getAll)
 
 //notification -> add
 router.get('/admin/notifications',isAuthenticated, NotificationController.add )
+router.get('/backDashboard',async(req,res)=>{
+	res.redirect('/admin/dashboard')
+})
 router.post('/admin/notification/sendAll', NotificationController.sendAll )
 
 module.exports = router;
