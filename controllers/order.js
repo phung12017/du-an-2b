@@ -55,16 +55,22 @@ exports.done = async (req, res) => {
                             res.send(err);
                             res.end();
                         } else {
-
+                            let title = `Xin cảm ơn ${user.name}`
+                            let content = `Giao hàng thành công, xin cảm ơn quý khách đã ủng hộ Hexia Coffee. Chúc quý khách ngon miệng !`
                             const message_option = {
                                 token: user.fcmToken,
+
+
                                 notification: {
-                                    title: `Xin cảm ơn ${user.name}`,
-                                    body: `Giao hàng thành công, xin cảm ơn quý khách đã ủng hộ Hexia Coffee. Chúc quý khách ngon miệng !`,
+                                    title: title,
+                                    body: "Giao hàng thành công, xin cảm ơn quý khách đã ủng hộ Hexia Coffee. Chúc quý khách ngon miệng !",
                                 },
                                 data: {
-                        
+                                    title:title,
+                                    content:"Giao hàng thành công, xin cảm ơn quý khách đã ủng hộ Hexia Coffee. Chúc quý khách ngon miệng !"
                                 }
+
+                             
                             }
                             FBAdmin.admin.messaging().send(message_option).then(r => {
                                 res.redirect('/admin/orders')
