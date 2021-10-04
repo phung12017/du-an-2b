@@ -28,6 +28,7 @@ const Order = require('../models/order')
 const Admin = require('../models/admin')
 const Banner = require('../models/banner')
 const Discount = require('../models/discount')
+const Account = require('../models/account')
 
 // multer
 const multer = require('multer');
@@ -52,7 +53,7 @@ router.use(bodyParser.json());
 //cấu hình passport
 router.use(
 	session({
-		secret:"secret",
+		secret: "secret",
 		resave: false,
 		saveUninitialized: false,
 		// cookie: {
@@ -82,9 +83,9 @@ Passport.use(
 				}
 				if (user) {
 					//thành công sẽ trả về true với giá trị user
-					return done(null, user,{message:'Đăng nhập thành công'});
+					return done(null, user, { message: 'Đăng nhập thành công' });
 				} else {
-					return done(null, false,{message:'Tài khoản hoăc mật khẩu lỗi'});
+					return done(null, false, { message: 'Tài khoản hoăc mật khẩu lỗi' });
 				}
 			});
 		}
@@ -105,10 +106,10 @@ Passport.deserializeUser((cookieID, done) => {
 		}
 		if (user) {
 			return done(null, user);
-		} 
-	
+		}
+
 		else {
-	 
+
 			return done(null, false);
 		}
 	});
@@ -136,11 +137,11 @@ router.get('/loginError', (req, res) => {
 	res.render('./auth/loginError')
 });
 router.post('/', Passport.authenticate('local', { successRedirect: '/main', failureRedirect: '/loginError' }));
- 
+
 
 //index
 router.get('/main', (request, response) => {
- 	if (request.isAuthenticated()) {
+	if (request.isAuthenticated()) {
 		response.redirect('/admin/dashboard');
 	} else {
 		response.redirect('/');
@@ -148,7 +149,7 @@ router.get('/main', (request, response) => {
 });
 
 //dashboard
-router.get('/admin/dashboard',isAuthenticated, async (req, res) => {
+router.get('/admin/dashboard', isAuthenticated, async (req, res) => {
 	let banner = await Banner.find({});
 	let categoryCount = await Category.count()
 	let productCount = await Product.count()
@@ -187,37 +188,37 @@ router.post('/admin/dashboard', (req, res) => {
 })
 //=== Category Controller ===//
 //menu -> getAll
-router.get('/admin/menu', isAuthenticated,CategoryController.getAllCate)
+router.get('/admin/menu', isAuthenticated, CategoryController.getAllCate)
 
 //menu -> get
-router.get('/admin/menu/details/:_id',isAuthenticated, CategoryController.getMenuDetails)
+router.get('/admin/menu/details/:_id', isAuthenticated, CategoryController.getMenuDetails)
 //menu -> edit menu item
-router.get('/admin/menu/edit/:_id', isAuthenticated,CategoryController.getCategoryById)
+router.get('/admin/menu/edit/:_id', isAuthenticated, CategoryController.getCategoryById)
 //menu -> create menu
 router.post('/admin/menu', CategoryController.createCategory)
 router.post('/admin/menu/edit/:_id', CategoryController.editCategory)
 //menu -> disable menu item
-router.get('/admin/menu/disable/:_id',isAuthenticated, CategoryController.disableCategory)
+router.get('/admin/menu/disable/:_id', isAuthenticated, CategoryController.disableCategory)
 //menu -> enable menu item
-router.get('/admin/menu/enable/:_id',isAuthenticated, CategoryController.enableCategory)
+router.get('/admin/menu/enable/:_id', isAuthenticated, CategoryController.enableCategory)
 //menu -> remove menu item
-router.get('/admin/menu/remove/:_id', isAuthenticated,CategoryController.removeCategory)
+router.get('/admin/menu/remove/:_id', isAuthenticated, CategoryController.removeCategory)
 
 
 //=== Product Controller ===//\
 
 //product -> getAll
-router.get('/admin/products', isAuthenticated,ProductController.getAll)
+router.get('/admin/products', isAuthenticated, ProductController.getAll)
 
 //product -> add 
-router.get('/admin/product/add', isAuthenticated,ProductController.add)
+router.get('/admin/product/add', isAuthenticated, ProductController.add)
 router.post('/admin/product/add', ProductController.createProduct)
 
 //product -> remove
-router.get('/admin/product/remove/:_id', isAuthenticated,ProductController.remove)
+router.get('/admin/product/remove/:_id', isAuthenticated, ProductController.remove)
 
 //product -> edit
-router.get('/admin/product/edit/:_id', isAuthenticated,ProductController.edit)
+router.get('/admin/product/edit/:_id', isAuthenticated, ProductController.edit)
 router.post('/admin/product/edit/:_id', ProductController.update)
 
 
@@ -229,31 +230,31 @@ router.get('/admin/api', (req, res) => {
 //=== Order Controller ===//
 
 //order -> getAll
-router.get('/admin/orders', isAuthenticated,OrderController.getAll)
+router.get('/admin/orders', isAuthenticated, OrderController.getAll)
 
 //order -> get order
-router.get('/admin/order/details/:_id', isAuthenticated,OrderController.getOrderDetails)
+router.get('/admin/order/details/:_id', isAuthenticated, OrderController.getOrderDetails)
 
 //order -> Update
-router.get('/admin/order/hoanthanh/:_id',isAuthenticated ,OrderController.done)
-router.get('/admin/order/giaohang/:_id',isAuthenticated ,OrderController.update)
+router.get('/admin/order/hoanthanh/:_id', isAuthenticated, OrderController.done)
+router.get('/admin/order/giaohang/:_id', isAuthenticated, OrderController.update)
 
 //=== Discount Controller ===//
 
 //discount -> getAll
-router.get('/admin/discounts',isAuthenticated, DiscountController.getAll)
+router.get('/admin/discounts', isAuthenticated, DiscountController.getAll)
 
 //discount -> add
-router.post('/admin/discounts/add', isAuthenticated,DiscountController.createDiscount)
+router.post('/admin/discounts/add', isAuthenticated, DiscountController.createDiscount)
 
 //discount -> disable
 router.get('/admin/discounts/disable/:_id', DiscountController.disable)
 
 //discount -> enable
-router.get('/admin/discounts/enable/:_id', isAuthenticated,DiscountController.enable)
+router.get('/admin/discounts/enable/:_id', isAuthenticated, DiscountController.enable)
 
 //discount -> remove
-router.get('/admin/discounts/remove/:_id', isAuthenticated,DiscountController.remove)
+router.get('/admin/discounts/remove/:_id', isAuthenticated, DiscountController.remove)
 
 //=== Banner Controller ===//
 
@@ -261,13 +262,13 @@ router.get('/admin/discounts/remove/:_id', isAuthenticated,DiscountController.re
 router.post('/admin/banner/add', BannerController.addBanner)
 
 //banner -> remove
-router.get('/admin/banner/remove/:_id', isAuthenticated,BannerController.removeBanner)
+router.get('/admin/banner/remove/:_id', isAuthenticated, BannerController.removeBanner)
 
 //banner -> enable banner 
-router.get('/admin/banner/enable/:_id',isAuthenticated, BannerController.enableBanner)
+router.get('/admin/banner/enable/:_id', isAuthenticated, BannerController.enableBanner)
 
 //banner -> disable banner 
-router.get('/admin/banner/disable/:_id', isAuthenticated,BannerController.disableBanner)
+router.get('/admin/banner/disable/:_id', isAuthenticated, BannerController.disableBanner)
 
 //=== User Controller ===//
 
@@ -277,10 +278,54 @@ router.get('/admin/users', UserController.getAll)
 //=== User Controller ===//
 
 //notification -> add
-router.get('/admin/notifications',isAuthenticated, NotificationController.add )
-router.get('/backDashboard',async(req,res)=>{
+router.get('/admin/notifications', isAuthenticated, NotificationController.add)
+router.get('/backDashboard', async (req, res) => {
 	res.redirect('/admin/dashboard')
 })
-router.post('/admin/notification/sendAll', NotificationController.sendAll )
+router.post('/admin/notification/sendAll', NotificationController.sendAll)
+
+
+router.get('/test',async (req, res) => {	
+	try {
+		let accounts = await Account.find({})
+		res.render('../views/test/index.ejs',{accounts})
+	} catch (error) {
+		res.json(error.message)
+	}
+	
+	//res.render('../views/test/index.ejs',{})
+})
+
+router.get('/test/removed/:_id',async(req,res)=>{
+	const {_id}  = req.params
+	
+	try {
+		await Account.findByIdAndRemove({_id:_id})	
+		res.redirect('/test')
+	} catch (error) {
+		res.json(error.message)
+	}
+})
+
+router.post('/test/add', async (req, res)  => {
+
+	const { username, email, password, day } = req.body	 
+	let newAccount = new Account({
+		username: username,
+		email: email,
+		password: password,
+		day: day
+	})
+
+	newAccount.save(function (err) {
+		if (err) {
+			res.json({ kq: 0, err: err })
+		} else {
+			res.redirect('/test')
+		}
+	})
+	 
+	//res.redirect('/test')
+})
 
 module.exports = router;
